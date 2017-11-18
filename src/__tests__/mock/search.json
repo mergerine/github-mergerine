@@ -1,0 +1,419 @@
+{
+  "total_count": 4,
+  "incomplete_results": false,
+  "items": [
+    {
+      "url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/98765",
+      "repository_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo",
+      "labels_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/98765/labels{/name}",
+      "comments_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/98765/comments",
+      "events_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/98765/events",
+      "html_url": "https://github.example.com/your-owner/your-repo/pull/98765",
+      "id": 123,
+      "number": 98765,
+      "title": "...",
+      "user": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 123,
+          "url":
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/something",
+          "name": "something",
+          "color": "000000",
+          "default": false
+        },
+        {
+          "id": 123,
+          "url":
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/merge",
+          "name": "merge",
+          "color": "000000",
+          "default": false
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": null,
+      "assignees": [],
+      "milestone": null,
+      "comments": 10,
+      "created_at": "2016-01-01T00:00:00Z",
+      "updated_at": "2016-01-01T00:00:00Z",
+      "closed_at": null,
+      "pull_request": {
+        "url":
+          "https://github.example.com/api/v3/repos/your-owner/your-repo/pulls/98765",
+        "html_url":
+          "https://github.example.com/your-owner/your-repo/pull/98765",
+        "diff_url":
+          "https://github.example.com/your-owner/your-repo/pull/98765.diff",
+        "patch_url":
+          "https://github.example.com/your-owner/your-repo/pull/98765.patch"
+      },
+      "body": "...",
+      "score": 1
+    },
+    {
+      "url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/12628",
+      "repository_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo",
+      "labels_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/12628/labels{/name}",
+      "comments_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/12628/comments",
+      "events_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/12628/events",
+      "html_url": "https://github.example.com/your-owner/your-repo/pull/12628",
+      "id": 123,
+      "number": 12628,
+      "title": "...",
+      "user": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 123,
+          "url":
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/merge",
+          "name": "merge",
+          "color": "000000",
+          "default": false
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "assignees": [
+        {
+          "login": "Somebody",
+          "id": 123,
+          "avatar_url": "https://avatars.github.example.com/u/123?",
+          "gravatar_id": "",
+          "url": "https://github.example.com/api/v3/users/Somebody",
+          "html_url": "https://github.example.com/Somebody",
+          "followers_url":
+            "https://github.example.com/api/v3/users/Somebody/followers",
+          "following_url":
+            "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+          "gists_url":
+            "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+          "starred_url":
+            "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+          "subscriptions_url":
+            "https://github.example.com/api/v3/users/Somebody/subscriptions",
+          "organizations_url":
+            "https://github.example.com/api/v3/users/Somebody/orgs",
+          "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+          "events_url":
+            "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+          "received_events_url":
+            "https://github.example.com/api/v3/users/Somebody/received_events",
+          "type": "User",
+          "site_admin": false
+        }
+      ],
+      "milestone": null,
+      "comments": 10,
+      "created_at": "2016-01-01T00:00:00Z",
+      "updated_at": "2016-01-01T00:00:00Z",
+      "closed_at": null,
+      "pull_request": {
+        "url":
+          "https://github.example.com/api/v3/repos/your-owner/your-repo/pulls/12628",
+        "html_url":
+          "https://github.example.com/your-owner/your-repo/pull/12628",
+        "diff_url":
+          "https://github.example.com/your-owner/your-repo/pull/12628.diff",
+        "patch_url":
+          "https://github.example.com/your-owner/your-repo/pull/12628.patch"
+      },
+      "body": "...",
+      "score": 1
+    },
+    {
+      "url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510",
+      "repository_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo",
+      "labels_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510/labels{/name}",
+      "comments_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510/comments",
+      "events_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510/events",
+      "html_url":
+        "https://github.example.com/your-owner/your-repo/pull/92510",
+      "id": 123,
+      "number": 92510,
+      "title": "...",
+      "user": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 123,
+          "url":
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/merge",
+          "name": "merge",
+          "color": "000000",
+          "default": false
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "assignees": [
+        {
+          "login": "Somebody",
+          "id": 123,
+          "avatar_url": "https://avatars.github.example.com/u/123?",
+          "gravatar_id": "",
+          "url": "https://github.example.com/api/v3/users/Somebody",
+          "html_url": "https://github.example.com/Somebody",
+          "followers_url":
+            "https://github.example.com/api/v3/users/Somebody/followers",
+          "following_url":
+            "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+          "gists_url":
+            "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+          "starred_url":
+            "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+          "subscriptions_url":
+            "https://github.example.com/api/v3/users/Somebody/subscriptions",
+          "organizations_url":
+            "https://github.example.com/api/v3/users/Somebody/orgs",
+          "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+          "events_url":
+            "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+          "received_events_url":
+            "https://github.example.com/api/v3/users/Somebody/received_events",
+          "type": "User",
+          "site_admin": false
+        }
+      ],
+      "milestone": null,
+      "comments": 10,
+      "created_at": "2016-01-01T00:00:00Z",
+      "updated_at": "2016-01-01T00:00:00Z",
+      "closed_at": null,
+      "pull_request": {
+        "url":
+          "https://github.example.com/api/v3/repos/your-owner/your-repo/pulls/92510",
+        "html_url":
+          "https://github.example.com/your-owner/your-repo/pull/92510",
+        "diff_url":
+          "https://github.example.com/your-owner/your-repo/pull/92510.diff",
+        "patch_url":
+          "https://github.example.com/your-owner/your-repo/pull/92510.patch"
+      },
+      "body": "...",
+      "score": 1
+    },
+    {
+      "url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/91683",
+      "repository_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo",
+      "labels_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/91683/labels{/name}",
+      "comments_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/91683/comments",
+      "events_url":
+        "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/91683/events",
+      "html_url": "https://github.example.com/your-owner/your-repo/pull/91683",
+      "id": 123,
+      "number": 91683,
+      "title": "...",
+      "user": {
+        "login": "Somebody",
+        "id": 123,
+        "avatar_url": "https://avatars.github.example.com/u/123?",
+        "gravatar_id": "",
+        "url": "https://github.example.com/api/v3/users/Somebody",
+        "html_url": "https://github.example.com/Somebody",
+        "followers_url":
+          "https://github.example.com/api/v3/users/Somebody/followers",
+        "following_url":
+          "https://github.example.com/api/v3/users/Somebody/following{/other_user}",
+        "gists_url":
+          "https://github.example.com/api/v3/users/Somebody/gists{/gist_id}",
+        "starred_url":
+          "https://github.example.com/api/v3/users/Somebody/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://github.example.com/api/v3/users/Somebody/subscriptions",
+        "organizations_url":
+          "https://github.example.com/api/v3/users/Somebody/orgs",
+        "repos_url": "https://github.example.com/api/v3/users/Somebody/repos",
+        "events_url":
+          "https://github.example.com/api/v3/users/Somebody/events{/privacy}",
+        "received_events_url":
+          "https://github.example.com/api/v3/users/Somebody/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 123,
+          "url":
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/merge",
+          "name": "merge",
+          "color": "000000",
+          "default": false
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": null,
+      "assignees": [],
+      "milestone": null,
+      "comments": 10,
+      "created_at": "2016-01-01T00:00:00Z",
+      "updated_at": "2016-01-01T00:00:00Z",
+      "closed_at": null,
+      "pull_request": {
+        "url":
+          "https://github.example.com/api/v3/repos/your-owner/your-repo/pulls/91683",
+        "html_url":
+          "https://github.example.com/your-owner/your-repo/pull/91683",
+        "diff_url":
+          "https://github.example.com/your-owner/your-repo/pull/91683.diff",
+        "patch_url":
+          "https://github.example.com/your-owner/your-repo/pull/91683.patch"
+      },
+      "body": "...",
+      "score": 1
+    }
+  ]
+}

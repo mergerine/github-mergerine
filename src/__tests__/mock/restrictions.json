@@ -1,0 +1,23 @@
+{
+  "url":
+    "https://github.example.com/api/v3/repos/your-owner/your-repo/branches/master/protection/restrictions",
+  "users_url":
+    "https://github.example.com/api/v3/repos/your-owner/your-repo/branches/master/protection/restrictions/users",
+  "teams_url":
+    "https://github.example.com/api/v3/repos/your-owner/your-repo/branches/master/protection/restrictions/teams",
+  "users": [],
+  "teams": [
+    {
+      "name": "Admins",
+      "id": 123,
+      "slug": "admins",
+      "description": "...",
+      "privacy": "closed",
+      "url": "https://github.example.com/api/v3/teams/123",
+      "members_url":
+        "https://github.example.com/api/v3/teams/123/members{/member}",
+      "repositories_url": "https://github.example.com/api/v3/teams/123/repos",
+      "permission": "pull"
+    }
+  ]
+}
