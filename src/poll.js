@@ -1,11 +1,12 @@
 import { interval } from './config'
+import { logRun } from './log'
 import run from './run'
 
 const poll = async () => {
-  console.log('starting poll...')
+  logRun('starting poll...')
 
   run().then(() => {
-    console.log(`...poll completed, waiting ${interval} milliseconds`)
+    logRun(`...poll completed, waiting ${interval} milliseconds`)
     setTimeout(() => {
       poll()
     }, interval)
