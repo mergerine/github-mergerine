@@ -11,9 +11,15 @@ const {
   GITHUB_TOKEN
 } = process.env
 
-const config = JSON.parse(
+let config = JSON.parse(
   readFileSync(resolve(process.cwd(), MERGERINE_CONFIG), 'utf8')
 )
+
+config.repos = config.repos || []
+config.repos = config.repos.map(repo => ({
+  ...repo,
+  baseUrl: repo.baseUrl || 'https://api.github.com'
+}))
 
 const token = MERGERINE_GITHUB_TOKEN || GITHUB_TOKEN || config.token
 
