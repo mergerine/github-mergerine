@@ -61,6 +61,7 @@
     "node-fetch": "^2.1.2",
     "parse-github-url": "^1.0.2",
     "parse-link-header": "^1.0.1",
+    "timestring": "^5.0.1",
     "yargs": "^11.0.0"
   }
 }

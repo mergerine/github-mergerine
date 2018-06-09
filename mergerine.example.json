@@ -1,6 +1,6 @@
 {
   "dry": false,
-  "interval": 120000,
+  "interval": "2 min",
   "deleteBranchAfterMerge": true,
   "repos": [
     {

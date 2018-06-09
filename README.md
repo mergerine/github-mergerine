@@ -31,7 +31,8 @@ export MERGERINE_GITHUB_TOKEN=ABCDEFGHIJLMNOPQRSTUVWXYZ123
 # Optional, config path, default="./mergerine.json", for example see below:
 export MERGERINE_CONFIG=/path/to/your/config/mergerine.json
 
-# Optional, number of seconds for poll interval, default=120000 (2 minutes):
+# Optional, number of milliseconds for poll interval, default=120000 (2 minutes):
+#  (also supports human durations like "2min" or "1 hour" via https://www.npmjs.com/package/timestring)
 export MERGERINE_INTERVAL=120000
 
 # Optional, dry mode, if "true" then don't actually execute decision, default=undefined:
