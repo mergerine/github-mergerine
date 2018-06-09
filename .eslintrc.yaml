@@ -4,3 +4,4 @@ extends: standard
 
 rules:
   camelcase: 0
+  no-console: 2

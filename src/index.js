@@ -23,6 +23,7 @@ const findRepoForArgs = ({ baseUrl, owner, name }) =>
     const apiUrl = `${baseUrl}/repos/${owner}/${name}/pulls/${number}`
     const { data: pull } = await githubFetch(apiUrl)
     const decision = await decideForPull(pull, repo)
+    // eslint-disable-next-line no-console
     console.log({ decision })
   } else if (command === 'run') {
     if (restArgs.length) {
@@ -35,6 +36,7 @@ const findRepoForArgs = ({ baseUrl, owner, name }) =>
   } else if (command === 'poll') {
     poll()
   } else {
+    // eslint-disable-next-line no-console
     console.error(`unsupported command "${command}"`)
     process.exit(1)
   }
