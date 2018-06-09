@@ -12,6 +12,8 @@
       "labels": ["merge"],
       "notLabels": ["no merge"],
       "priorityLabels": ["high priority", "medium priority"],
+      "sort": "created",
+      "direction": "desc",
       "merge_method": "squash"
     }
   ]

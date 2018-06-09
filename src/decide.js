@@ -245,33 +245,50 @@ const decideForPull = async (pull, options) => {
   return { action: 'wait', result, results, options }
 }
 
-const decideWithResults = async (results, options) => {
-  // TODO: Support other custom sort strategies?
+const sortForDate = (date, direction = 'desc') => {
+  if (!date) return 0
+  const time = new Date(date).getTime()
+  return direction === 'asc' ? time : -time
+}
 
-  const { priorityLabels } = options
-
-  results = sortBy(
+// TODO: Support other custom sort strategies?
+const sortResults = (results, options = {}) =>
+  results &&
+  sortBy(
     results,
     result => {
+      const { priorityLabels } = options
       if (!priorityLabels) return 0
-      if (!result.pull.labels) return 0
+
+      const { labels } = result.pull
+      if (!labels) return 0
 
       // priorityLabels: ['a', 'b']
       // 1: ['b', 'a'] // score 2 + 1 = 3
       // 2: ['a'] // score 1
 
       const score = priorityLabels.reduce((acc, priorityLabelName, index) => {
-        const has = result.pull.labels.some(
-          label => label.name === priorityLabelName
-        )
+        const has = labels.some(label => label.name === priorityLabelName)
         return has ? acc + index + 1 : acc
       }, 0)
 
       return -score
     },
-    // Effectively FIFO by creation date
+    result => {
+      const { sort = 'created', direction } = options
+      if (sort === 'created') {
+        return sortForDate(result.pull.created_at, direction)
+      } else if (sort === 'updated') {
+        return sortForDate(result.pull.updated_at, direction)
+      } else {
+        throw new Error(`unsupported "sort" value "${sort}"`)
+      }
+    },
     result => result.pull.number
   )
+
+const decideWithResults = async (results, options) => {
+  results = sortResults(results, options)
 
   logDecide('results', results.map(r => r.pull.number).join(','))
 
@@ -370,6 +387,6 @@ const decide = async options => {
   return decideWithPulls(fullPulls, options)
 }
 
-export { shouldMerge, shouldUpdate, decideForPull }
+export { shouldMerge, shouldUpdate, decideForPull, sortResults }
 
 export default decide
