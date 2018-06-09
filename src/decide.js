@@ -311,7 +311,7 @@ const decide = async options => {
     pullsMode = query ? 'search' : 'list' // whether to use list or search for pulls
   } = options
 
-  // TODO: Consider optionally using search instead of list pulls.
+  // For search instead of list:
   //
   // 'review:approved' seems to filter out any PRs with changes requested, even if they also have approvals.
   //
