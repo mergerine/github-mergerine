@@ -223,8 +223,7 @@
         "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510/comments",
       "events_url":
         "https://github.example.com/api/v3/repos/your-owner/your-repo/issues/92510/events",
-      "html_url":
-        "https://github.example.com/your-owner/your-repo/pull/92510",
+      "html_url": "https://github.example.com/your-owner/your-repo/pull/92510",
       "id": 123,
       "number": 92510,
       "title": "...",

@@ -10,6 +10,7 @@
         "repo:your-owner/your-repo is:pr is:open review:approved label:merge -label:\"no merge\" base:master",
       "labels": ["merge"],
       "notLabels": ["no merge"],
+      "priorityLabels": ["high priority", "medium priority"],
       "merge_method": "squash"
     }
   ]

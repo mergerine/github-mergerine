@@ -12,7 +12,9 @@ jest.mock('../config', () => ({
           'repo:your-owner/your-repo is:pr is:open review:approved label:merge -label:"no merge" base:master',
         labels: ['merge'],
         notLabels: ['no merge'],
-        merge_method: 'squash'
+        merge_method: 'squash',
+        // using two labels here just to test
+        priorityLabels: ['priority', 'merge']
       }
     ]
   },
@@ -73,6 +75,16 @@ describe('run', () => {
     expect(await run()).toMatchObject([
       {
         action: 'wait'
+      }
+    ])
+  })
+
+  it('considers priority labels first', async () => {
+    nocks.mergesPriorityLabels()
+    expect(await run()).toMatchObject([
+      {
+        action: 'merge',
+        result: { pull: { number: 92510 } }
       }
     ])
   })

@@ -262,6 +262,14 @@
           "name": "merge",
           "color": "000000",
           "default": false
+        },
+        {
+          "id": 456,
+          "url":
+            "https://git.target.com/api/v3/repos/your-owner/your-repo/labels/priority",
+          "name": "priority",
+          "color": "000000",
+          "default": false
         }
       ],
       "state": "open",
@@ -386,8 +394,8 @@
         {
           "id": 123,
           "url":
-            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/no+merge",
-          "name": "no merge",
+            "https://github.example.com/api/v3/repos/your-owner/your-repo/labels/merge",
+          "name": "merge",
           "color": "000000",
           "default": false
         }

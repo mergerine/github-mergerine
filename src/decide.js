@@ -246,8 +246,32 @@ const decideForPull = async (pull, options) => {
 }
 
 const decideWithResults = async (results, options) => {
-  // TODO: Custom sort strategies? Priorities? Etc.
-  results = sortBy(results, result => result.pull.number)
+  // TODO: Support other custom sort strategies?
+
+  const { priorityLabels } = options
+
+  results = sortBy(
+    results,
+    result => {
+      if (!priorityLabels) return 0
+      if (!result.pull.labels) return 0
+
+      // priorityLabels: ['a', 'b']
+      // 1: ['b', 'a'] // score 2 + 1 = 3
+      // 2: ['a'] // score 1
+
+      const score = priorityLabels.reduce((acc, priorityLabelName, index) => {
+        const has = result.pull.labels.some(
+          label => label.name === priorityLabelName
+        )
+        return has ? acc + index + 1 : acc
+      }, 0)
+
+      return -score
+    },
+    // Effectively FIFO by creation date
+    result => result.pull.number
+  )
 
   logDecide('results', results.map(r => r.pull.number).join(','))
 

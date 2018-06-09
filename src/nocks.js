@@ -1,6 +1,7 @@
 import nock from 'nock'
 import search from './__tests__/mock/search'
 import searchNoneToMerge from './__tests__/mock/search-none-to-merge'
+import searchPriorityLabel from './__tests__/mock/search-priority-label'
 import pulls from './__tests__/mock/pulls'
 import pullsFetched from './__tests__/mock/pulls-fetched'
 import pullsFetchedNoneToMerge from './__tests__/mock/pulls-fetched-none-to-merge'
@@ -168,6 +169,54 @@ export const merges = () => {
     .reply(404)
     .get(uri => uri.includes('/members/SuperUser'))
     .reply(204)
+    .put(uri => uri.includes('/merge'))
+    .reply(200)
+}
+
+export const mergesPriorityLabels = () => {
+  mockPulls(nock(baseNockUrl), pullsFetched, searchPriorityLabel)
+    .get(uri => uri.includes('/labels'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/92510/labels'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        name: 'merge'
+      },
+      {
+        id: 456,
+        url:
+          'https://git.target.com/api/v3/repos/your-owner/your-repo/labels/priority',
+        name: 'priority',
+        color: '000000',
+        default: false
+      }
+    ])
+    .get(uri => uri.includes('/reviews'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/restrictions'))
+    .reply(404)
+    .get(uri => uri.includes('/members'))
+    .reply(404)
     .put(uri => uri.includes('/merge'))
     .reply(200)
 }

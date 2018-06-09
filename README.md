@@ -81,4 +81,4 @@ import mergerine from 'github-mergerine'
 * add status checks in pull list mode (already supported in search mode)
 * token per repo in config
 * dry mode per repo in config
-* some kind of prioritization mechanism beyond chronological by PR number - e.g, "high priority" label, etc.
+* additional sorting/prioritization options
