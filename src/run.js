@@ -8,7 +8,12 @@ import { config, dry } from './config'
 const runOne = async repo => {
   const decision = await decide(repo)
 
-  logDecide(decision.action, get(decision, 'result.pull.number'), decision)
+  const number = get(decision, 'result.pull.number')
+  if (number) {
+    logDecide(decision.action, number)
+  } else {
+    logDecide(decision.action)
+  }
 
   if (dry) {
     logRun('dry mode, not acting...')
