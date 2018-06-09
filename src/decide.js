@@ -1,6 +1,7 @@
 import { sortBy } from 'lodash'
 import githubFetch, { repoFetch } from './fetch'
 import log, { logDecide, trace } from './log'
+import { processQuery } from './helpers'
 
 const isUserInTeam = async (login, team) => {
   try {
@@ -344,13 +345,15 @@ const fetchPulls = async ({ baseUrl, owner, name, pullsMode, query }) => {
 }
 
 const decide = async options => {
+  let { query } = options
   const {
     baseUrl, // e.g. 'https://api.github.com' or https://github.example.com/api/v3'
     owner, // repo user or org
     name, // repo name
-    query,
     pullsMode = query ? 'search' : 'list' // whether to use list or search for pulls
   } = options
+
+  query = processQuery(query)
 
   // For search instead of list:
   //
