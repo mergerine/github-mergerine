@@ -4,7 +4,7 @@ import { processQuery } from '../helpers'
 describe('helpers', () => {
   describe('processQuery', () => {
     describe('dates', () => {
-      it('should work', () => {
+      it('should replace relative dates with magic syntax', () => {
         const date = new Date()
         const created = format(subDays(date, 2), 'YYYY-MM-DD')
         const updated = format(subWeeks(date, 4), 'YYYY-MM-DD')
