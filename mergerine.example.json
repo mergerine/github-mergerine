@@ -1,4 +1,5 @@
 {
+  "dry": false,
   "interval": 120000,
   "deleteBranchAfterMerge": true,
   "repos": [
