@@ -17,7 +17,7 @@ or:
 
 [![yarn global add github-mergerine (copy)](https://copyhaste.com/i?t=yarn%20global%20add%20github-mergerine)](https://copyhaste.com/c?t=yarn%20global%20add%20github-mergerine "yarn global add github-mergerine (copy)")
 
-or use `npx` (see below).
+or use `npx` ([see below](#cli)).
 
 ### Configure
 
