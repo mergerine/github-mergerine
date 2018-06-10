@@ -131,7 +131,7 @@ Merge method to use, per https://developer.github.com/v3/pulls/#input-2.
 #### Environment variables
 
 ```
-# Required:
+# Required (if not in configuration file):
 export MERGERINE_GITHUB_TOKEN=ABCDEFGHIJLMNOPQRSTUVWXYZ123
 
 # Optional, config path, default="./mergerine.json", for example see below:
