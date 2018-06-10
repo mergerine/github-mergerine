@@ -9,8 +9,6 @@ A GitHub bot to automatically merge pull requests (PRs) matching certain search 
 
 Helps resolve contention in large applications due to the serialization of merges and long continuous integration jobs.
 
-**_Work-in-progress._**
-
 ## Usage
 
 [![npm install -g github-mergerine (copy)](https://copyhaste.com/i?t=npm%20install%20-g%20github-mergerine)](https://copyhaste.com/c?t=npm%20install%20-g%20github-mergerine "npm install -g github-mergerine (copy)")
