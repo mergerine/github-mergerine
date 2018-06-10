@@ -19,7 +19,7 @@
     "prettier-check:only": "prettier-check",
     "format": "yarn format:only '**/*.{js,json,md}'",
     "format:only": "prettier --write",
-    "test": "lint-staged && jest",
+    "test": "lint-staged && MERGERINE_CONFIG=mergerine.example.json jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "precommit": "yarn test",
