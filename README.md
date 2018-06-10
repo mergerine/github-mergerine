@@ -13,15 +13,11 @@ Helps resolve contention in large applications due to the serialization of merge
 
 ## Usage
 
-```
-npm install -g github-mergerine
-```
+[![npm install -g github-mergerine (copy)](https://copyhaste.com/i?t=npm%20install%20-g%20github-mergerine)](https://copyhaste.com/c?t=npm%20install%20-g%20github-mergerine "npm install -g github-mergerine (copy)")
 
 or:
 
-```
-yarn global add github-mergerine
-```
+[![yarn global add github-mergerine (copy)](https://copyhaste.com/i?t=yarn%20global%20add%20github-mergerine)](https://copyhaste.com/c?t=yarn%20global%20add%20github-mergerine "yarn global add github-mergerine (copy)")
 
 or use `npx` (see below).
 
