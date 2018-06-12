@@ -8,9 +8,9 @@ import { config, dry } from './config'
 const runOne = async repo => {
   const decision = await decide(repo)
 
-  const number = get(decision, 'result.pull.number')
-  if (number) {
-    logDecide(decision.action, number)
+  const html_url = get(decision, 'result.pull.html_url')
+  if (html_url) {
+    logDecide(decision.action, html_url)
   } else {
     logDecide(decision.action)
   }
@@ -37,6 +37,7 @@ const runOne = async repo => {
       } catch (err) {
         trace(err)
         logRun('error executing post-merge decision', decision)
+        // eslint-disable-next-line no-console
         console.error('error executing post-merge decision', postDecision)
       }
 
@@ -49,6 +50,7 @@ const runOne = async repo => {
   } catch (err) {
     trace(err)
     logRun('error executing decision', decision)
+    // eslint-disable-next-line no-console
     console.error('error executing decision', decision)
   }
 

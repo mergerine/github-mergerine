@@ -21,12 +21,14 @@ const isUserInUsers = (login, users) => users.some(user => user.login === login)
 const isUserInTeams = async (pull, login, teams) => {
   for (let team of teams) {
     if (await isUserInTeam(login, team)) {
-      logDecide(`${pull.number} allows user "${login}" in team "${team.name}"`)
+      logDecide(
+        `${pull.html_url} allows user "${login}" in team "${team.name}"`
+      )
       return true
     }
   }
 
-  logDecide(`${pull.number} has no user "${login}" in teams`)
+  logDecide(`${pull.html_url} has no user "${login}" in teams`)
 
   return false
 }
@@ -34,7 +36,7 @@ const isUserInTeams = async (pull, login, teams) => {
 const isUserInUsersOrTeams = async (pull, login, users, teams) => {
   const userIsInUsers = isUserInUsers(login, users)
   if (userIsInUsers) {
-    logDecide(`${pull.number} allows user "${login}" in users`)
+    logDecide(`${pull.html_url} allows user "${login}" in users`)
     return true
   }
 
@@ -44,7 +46,7 @@ const isUserInUsersOrTeams = async (pull, login, users, teams) => {
 const isUserAllowedToMerge = (login, pull, restrictions) => {
   if (!restrictions) {
     // TODO: Handle no restrictions.
-    logDecide(`${pull.number} has no restrictions for user "${login}"`)
+    logDecide(`${pull.html_url} has no restrictions for user "${login}"`)
     return true
   }
 
@@ -71,7 +73,13 @@ const fetchLabels = async (pull, options) => {
 const isMergeableByLabels = async (pull, options) => {
   // TODO: Does this shorthand work to get labels on `pull` itself from a search (not a pulls list)?
   const labels = pull.labels || (await fetchLabels(pull, options))
-  logDecide(pull.number, 'labels', labels, 'vs. expected', options.labels)
+  logDecide(
+    pull.html_url,
+    'labels',
+    labels && labels.map(l => l.name),
+    'vs. expected',
+    options.labels
+  )
   if (
     (options.labels && !everyLabelInLabels(labels, options.labels)) ||
     (options.notLabels && someLabelInLabels(labels, options.notLabels))
@@ -99,13 +107,13 @@ const isMergeableByReviews = async (pull, options) => {
   const reviewsUrl = `${pull.url}/reviews`
   const { data: reviews } = await githubFetch(reviewsUrl)
   if (!reviews || !reviews.length) {
-    logDecide(`${pull.number} has no reviews`)
+    logDecide(`${pull.html_url} has no reviews`)
     return false
   }
 
   const approvals = reviews.filter(({ state }) => state === 'APPROVED')
   if (!approvals || !approvals.length) {
-    logDecide(`${pull.number} has no approvals`)
+    logDecide(`${pull.html_url} has no approvals`)
     return false
   }
 
@@ -130,13 +138,13 @@ const isMergeableByReviews = async (pull, options) => {
     if (areChangesRequestedsReplacedByApprovals) {
       logDecide(
         `${
-          pull.number
+          pull.html_url
         } has changes requested but are replaced by later approvals from same users`
       )
     } else {
       logDecide(
         `${
-          pull.number
+          pull.html_url
         } has changes requested that are not replaced by later approvals from same users`
       )
       return false
@@ -172,13 +180,13 @@ const isMergeableByLabelsAndReviews = async (pull, options) => {
   // TODO: Bypass this labels check if we're not configured to care about labels,
   //  or if assumed optional based on search query rules.
   if (!await isMergeableByLabels(pull, options)) {
-    logDecide(`${pull.number} is not mergeable by labels`)
+    logDecide(`${pull.html_url} is not mergeable by labels`)
     return false
   }
 
   // TODO: Bypass this if the branch isn't protected with approval requirement.
   if (!await isMergeableByReviews(pull, options)) {
-    logDecide(`${pull.number} is not mergeable by reviews`)
+    logDecide(`${pull.html_url} is not mergeable by reviews`)
     return false
   }
 
@@ -194,12 +202,12 @@ const isClosed = pull => pull.state !== 'open' || pull.merged
 
 const shouldMerge = async (pull, options) => {
   if (isClosed(pull)) {
-    logDecide(`${pull.number} is closed, not merging`)
+    logDecide(`${pull.html_url} is closed, not merging`)
     return false
   }
 
   if (pull.mergeable_state !== 'clean') {
-    logDecide(`${pull.number} is not clean, not merging`)
+    logDecide(`${pull.html_url} is not clean, not merging`)
     return false
   }
 
@@ -208,12 +216,12 @@ const shouldMerge = async (pull, options) => {
 
 const shouldUpdate = async (pull, options) => {
   if (isClosed(pull)) {
-    logDecide(`${pull.number} is closed, not updating`)
+    logDecide(`${pull.html_url} is closed, not updating`)
     return false
   }
 
   if (pull.mergeable_state !== 'behind') {
-    logDecide(`${pull.number} is not behind, not updating`)
+    logDecide(`${pull.html_url} is not behind, not updating`)
     return false
   }
 
@@ -375,7 +383,7 @@ const decide = async options => {
 
       const { res, data: fullPull } = await githubFetch(url)
 
-      log({ pullNum: pull.number, res, fullPull })
+      log({ pullNum: pull.html_url, res, fullPull })
 
       // carry over labels from search results, since full pull doesn't have
       fullPull.labels = pull.labels
