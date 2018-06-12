@@ -42,7 +42,7 @@ Whether or not to actually merge or do any write operations.
 Overridden by environment variable `MERGERINE_DRY`.
 
 ##### `interval`
-`Boolean|String` Optional. Default: `2 min`
+`Number|String` Optional. Default: `2 min`
 
 The poll interval - how often to check for pull requests.
 Supports an integer as milliseconds or a human duration format supported by [timestring][timestring],
