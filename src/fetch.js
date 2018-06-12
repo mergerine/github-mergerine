@@ -41,7 +41,7 @@ const githubFetch = (url, options = {}) => {
       })
 
       return {
-        ...res,
+        res,
         data
       }
     })

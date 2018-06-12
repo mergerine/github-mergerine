@@ -7,7 +7,8 @@ const isUserInTeam = async (login, team) => {
   try {
     const url = team.members_url.replace('{/member}', `/${login}`)
     trace('DEV USER IN TEAM', { login, team, url })
-    return await githubFetch(url)
+    const { res } = await githubFetch(url)
+    return res.ok
   } catch (err) {
     trace(err)
     // TODO: 404 is expected, but what about other non-404 errors, e.g., 5XX?
@@ -372,11 +373,9 @@ const decide = async options => {
     try {
       const url = `${baseUrl}/repos/${owner}/${name}/pulls/${pull.number}`
 
-      const response = await githubFetch(url)
+      const { res, data: fullPull } = await githubFetch(url)
 
-      const { data: fullPull } = response
-
-      log({ pullNum: pull.number, response, fullPull })
+      log({ pullNum: pull.number, res, fullPull })
 
       // carry over labels from search results, since full pull doesn't have
       fullPull.labels = pull.labels
