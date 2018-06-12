@@ -17,7 +17,11 @@ export const mockPulls = (
 ) =>
   nocked
     .get(/\/search\/issues/)
-    .reply(200, searchIndex)
+    .reply(200, searchIndex, {
+      'X-RateLimit-Limit': 5000,
+      'X-RateLimit-Remaining': 5000,
+      'X-RateLimit-Reset': '2018-06-12T05:58:11.117Z' // TODO: Is this the right format?
+    })
     .get(/\/pulls$/)
     .reply(200, pullsIndex)
     .get(/\/pulls\/\d+$/)

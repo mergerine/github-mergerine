@@ -33,10 +33,11 @@ const githubFetch = (url, options = {}) => {
     .then(({ res, data }) => {
       logFetchOk(url, {
         method,
+        headers: res.headers,
         rateLimit: {
-          limit: res.headers['x-ratelimit-limit'],
-          remaining: res.headers['x-ratelimit-remaining'],
-          reset: res.headers['x-ratelimit-reset']
+          limit: res.headers.get('x-ratelimit-limit'),
+          remaining: res.headers.get('x-ratelimit-remaining'),
+          reset: res.headers.get('x-ratelimit-reset')
         }
       })
 
