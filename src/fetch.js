@@ -46,10 +46,10 @@ const githubFetch = (url, options = {}) => {
       }
     })
     .catch(err => {
-      const { status } = err
+      const { message } = err
       logFetchErr(url, {
         method,
-        status
+        message
       })
       trace(err)
       throw err
