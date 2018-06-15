@@ -33,7 +33,7 @@ const githubFetch = (url, options = {}) => {
     ...rest
   })
     .then(({ res, data }) => {
-      const { status } = res
+      const { headers, status } = res
 
       const shouldLogData = logDataUrlRegExp && logDataUrlRegExp.test(url)
 
@@ -42,9 +42,9 @@ const githubFetch = (url, options = {}) => {
         status,
         reqData: shouldLogData ? options.data : options.data && 'redacted',
         rateLimit: {
-          limit: res.headers.get('x-ratelimit-limit'),
-          remaining: res.headers.get('x-ratelimit-remaining'),
-          reset: res.headers.get('x-ratelimit-reset')
+          limit: headers.get('x-ratelimit-limit'),
+          remaining: headers.get('x-ratelimit-remaining'),
+          reset: headers.get('x-ratelimit-reset')
         },
         resData: shouldLogData ? data : data && 'redacted'
       })
