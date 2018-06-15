@@ -1,7 +1,9 @@
 import fetch from 'node-fetch'
 import fetchPaginate from 'fetch-paginate'
 import { logFetchOk, logFetchErr, trace } from './log'
-import { token } from './config'
+import { token, logDataUrlPattern } from './config'
+
+const logDataUrlRegExp = logDataUrlPattern && new RegExp(logDataUrlPattern)
 
 global.fetch = fetch
 
@@ -33,16 +35,18 @@ const githubFetch = (url, options = {}) => {
     .then(({ res, data }) => {
       const { status } = res
 
+      const shouldLogData = logDataUrlRegExp && logDataUrlRegExp.test(url)
+
       logFetchOk(url, {
         method,
         status,
-        reqData: options.data,
+        reqData: shouldLogData ? options.data : options.data && 'redacted',
         rateLimit: {
           limit: res.headers.get('x-ratelimit-limit'),
           remaining: res.headers.get('x-ratelimit-remaining'),
           reset: res.headers.get('x-ratelimit-reset')
         },
-        resData: data
+        resData: shouldLogData ? data : data && 'redacted'
       })
 
       return {
