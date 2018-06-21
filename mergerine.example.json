@@ -2,6 +2,7 @@
   "dry": false,
   "interval": "2 min",
   "deleteBranchAfterMerge": true,
+  "logDataUrlPattern": ".*",
   "repos": [
     {
       "baseUrl": "https://github.example.com/api/v3",
