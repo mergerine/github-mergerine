@@ -58,75 +58,95 @@ Whether to delete pull request branches after merging.
 Overridden by environment variable `MERGERINE_DELETE_BRANCH_AFTER_MERGE`.
 
 ##### `repos`
+
 `Array` Required.
 
 A list of repositories to manage.
 
 ###### `repos[].baseUrl`
+
 `String` Optional. Default: `https://api.github.com`
 
 Base URL for the API endpoint of your GitHub host, e.g., `https://github.example.com/api/v3`.
 
 ###### `repos[].owner`
+
 `String` Required.
 
 Owner (user or organization) of the repository.
 
 ###### `repos[].name`
+
 `String` Required.
 
 Name of the repository.
 
 ###### `repos[].query`
+
 `String` Required.
 
 A GitHub search query to generate the initial list of pull requests to consider.
 
 Example:
+
 ```
 "repo:your-owner/your-repo is:pr is:open review:approved label:merge -label:\"no merge\" base:master"
 ```
 
 Supports additional special syntax for relative dates (note the minus sign for past)
 using, e.g., `${date(-2w)}`, with [timestring][timestring] syntax:
+
 ```
 "created:<${date(-2d)} updated:<${date(-4w)}"
 ```
 
 See:
+
 * https://help.github.com/articles/understanding-the-search-syntax
 * https://developer.github.com/v3/search/#search-issues
 
 ###### `repos[].labels`
+
 `Array<String>` Optional.
 
 Labels to require before considering pull requests.
 
 ###### `repos[].notLabels`
+
 `Array<String>` Optional.
 
 Labels with which to exclude pull requests.
 
 ###### `repos[].priorityLabels`
+
 `Array<String>` Optional.
 
 Labels with which to prioritize pull requests at the front of the queue.
 
 ###### `repos[].sort`
+
 `"created"|"updated"` Optional. Default: `"created"`
 
 Date field by which to sort the pull requests, which direction in `repos[].direction`.
 
 ###### `repos[].direction`
+
 `"asc"|"desc"` Optional. Default: `"desc"`
 
 Direction which to sort the pull requests, given `repos[].sort`.
 Defaults to last in, first out - latest are merged first.
 
 ###### `repos[].merge_method`
+
 `"merge"|"squash"|"rebase"` Optional. Default: `"merge"`
 
 Merge method to use, per https://developer.github.com/v3/pulls/#input-2.
+
+##### `logDataUrlPattern`
+
+`String` Optional. Default: `undefined`
+
+A regular expression string to match URLs for which to use full request/response logging.
 
 #### Environment variables
 
