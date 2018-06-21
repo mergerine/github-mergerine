@@ -11,11 +11,11 @@ Helps resolve contention in large applications due to the serialization of merge
 
 ## Usage
 
-[![npm install -g github-mergerine (copy)](https://copyhaste.com/i?t=npm%20install%20-g%20github-mergerine)](https://copyhaste.com/c?t=npm%20install%20-g%20github-mergerine "npm install -g github-mergerine (copy)")
+[![npm install -g github-mergerine (copy)](https://copyhaste.com/i?t=npm%20install%20-g%20github-mergerine)](https://copyhaste.com/c?t=npm%20install%20-g%20github-mergerine 'npm install -g github-mergerine (copy)')
 
 or:
 
-[![yarn global add github-mergerine (copy)](https://copyhaste.com/i?t=yarn%20global%20add%20github-mergerine)](https://copyhaste.com/c?t=yarn%20global%20add%20github-mergerine "yarn global add github-mergerine (copy)")
+[![yarn global add github-mergerine (copy)](https://copyhaste.com/i?t=yarn%20global%20add%20github-mergerine)](https://copyhaste.com/c?t=yarn%20global%20add%20github-mergerine 'yarn global add github-mergerine (copy)')
 
 or use `npx` ([see below](#cli)).
 
@@ -28,6 +28,7 @@ Mergerine can be configured variously with environment variables and/or a config
 Example: [`mergerine.example.json`](https://unpkg.com/github-mergerine/mergerine.example.json)
 
 ##### `token`
+
 `String` Optional.
 
 GitHub API token to use for read/write operations.
@@ -35,6 +36,7 @@ GitHub API token to use for read/write operations.
 Overridden by environment variable `MERGERINE_GITHUB_TOKEN`.
 
 ##### `dry`
+
 `Boolean` Optional. Default: `false`
 
 Whether or not to actually merge or do any write operations.
@@ -42,6 +44,7 @@ Whether or not to actually merge or do any write operations.
 Overridden by environment variable `MERGERINE_DRY`.
 
 ##### `interval`
+
 `Number|String` Optional. Default: `2 min`
 
 The poll interval - how often to check for pull requests.
@@ -51,6 +54,7 @@ such as "2 min" or "1m 30secs" or "1 hr 25m 18s".
 Overridden by environment variable `MERGERINE_INTERVAL`.
 
 ##### `deleteBranchAfterMerge`
+
 `Boolean` Optional. Default: `false`
 
 Whether to delete pull request branches after merging.
