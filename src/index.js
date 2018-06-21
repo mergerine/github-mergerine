@@ -2,7 +2,7 @@
 
 import 'babel-polyfill'
 import yargs from 'yargs'
-import { config } from './config'
+import { repos } from './config'
 import poll from './poll'
 import { decideForPull } from './decide'
 import githubFetch from './fetch'
@@ -13,9 +13,9 @@ const { argv: { _ } } = yargs
 const [command = 'poll', ...restArgs] = _
 
 const findRepoForArgs = ({ baseUrl, owner, name }) =>
-  config.repos.find(
-    r => r.baseUrl === baseUrl && r.owner === owner && r.name === name
-  )
+  repos.find(r => r.baseUrl === baseUrl && r.owner === owner && r.name === name)
+
+// run with async/await
 ;(async () => {
   if (command === 'decide') {
     const { baseUrl, owner, name, number } = getPullArgs(restArgs)

@@ -2,22 +2,21 @@ import run from '../run'
 import * as nocks from '../nocks'
 
 jest.mock('../config', () => ({
-  config: {
-    repos: [
-      {
-        baseUrl: 'https://github.example.com/api/v3',
-        owner: 'your-owner',
-        name: 'your-repo',
-        query:
-          'repo:your-owner/your-repo is:pr is:open review:approved label:merge -label:"no merge" base:master',
-        labels: ['merge'],
-        notLabels: ['no merge'],
-        merge_method: 'squash',
-        // using two labels here just to test
-        priorityLabels: ['priority', 'merge']
-      }
-    ]
-  },
+  logDataUrlPattern: '.*',
+  repos: [
+    {
+      baseUrl: 'https://github.example.com/api/v3',
+      owner: 'your-owner',
+      name: 'your-repo',
+      query:
+        'repo:your-owner/your-repo is:pr is:open review:approved label:merge -label:"no merge" base:master',
+      labels: ['merge'],
+      notLabels: ['no merge'],
+      merge_method: 'squash',
+      // using two labels here just to test
+      priorityLabels: ['priority', 'merge']
+    }
+  ],
   dry: true,
   interval: 1000
 }))

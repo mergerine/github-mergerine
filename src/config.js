@@ -15,8 +15,7 @@ let config = JSON.parse(
   readFileSync(resolve(process.cwd(), MERGERINE_CONFIG), 'utf8')
 )
 
-config.repos = config.repos || []
-config.repos = config.repos.map(repo => ({
+const repos = (config.repos || []).map(repo => ({
   ...repo,
   baseUrl: repo.baseUrl || 'https://api.github.com'
 }))
@@ -32,4 +31,13 @@ const deleteBranchAfterMerge =
 
 const dry = MERGERINE_DRY === 'true' || config.dry
 
-export { config, token, interval, deleteBranchAfterMerge, dry }
+const { logDataUrlPattern } = config
+
+export {
+  repos,
+  logDataUrlPattern,
+  token,
+  interval,
+  deleteBranchAfterMerge,
+  dry
+}

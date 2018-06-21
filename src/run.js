@@ -3,7 +3,7 @@ import { logDecide, logRun, trace } from './log'
 import decide from './decide'
 import merge from './merge'
 import update from './update'
-import { config, dry } from './config'
+import { repos, dry } from './config'
 
 const runOne = async repo => {
   const decision = await decide(repo)
@@ -60,8 +60,6 @@ const runOne = async repo => {
 }
 
 const run = async () => {
-  const { repos } = config
-
   const decisions = []
 
   for (let repo of repos) {
