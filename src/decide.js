@@ -206,6 +206,11 @@ const shouldMerge = async (pull, options) => {
     return false
   }
 
+  if (!pull.mergeable) {
+    logDecide(`${pull.html_url} is not mergeable, not merging`)
+    return false
+  }
+
   if (pull.mergeable_state !== 'clean') {
     logDecide(`${pull.html_url} is not clean, not merging`)
     return false
