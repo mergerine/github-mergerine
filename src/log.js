@@ -22,12 +22,13 @@ const debugOneLine = label => {
 }
 
 const log = debugOneLine('mergerine:log')
+const logConfig = debugOneLine('mergerine:config')
 const trace = debugOneLine('mergerine:trace')
 const logRun = debugOneLine('mergerine:run')
 const logFetchOk = debugOneLine('mergerine:fetch:ok')
 const logFetchErr = debugOneLine('mergerine:fetch:err')
 const logDecide = debugOneLine('mergerine:decide')
 
-export { log, logRun, logFetchOk, logFetchErr, logDecide, trace }
+export { log, logConfig, logRun, logFetchOk, logFetchErr, logDecide, trace }
 
 export default log

@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { readFileSync } from 'fs'
 import { getInterval } from './configHelper'
+import { logConfig } from './log'
 
 const {
   MERGERINE_CONFIG = 'mergerine.json',
@@ -21,6 +22,8 @@ const repos = (config.repos || []).map(repo => ({
 }))
 
 const token = MERGERINE_GITHUB_TOKEN || GITHUB_TOKEN || config.token
+
+logConfig({ tokenPrefix: token && token.substr(0, 2) })
 
 const rawInterval = parseInt(MERGERINE_INTERVAL) || config.interval || 120000 // 2 minutes
 const interval = getInterval(rawInterval)
