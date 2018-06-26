@@ -177,6 +177,141 @@ export const merges = () => {
     .reply(200)
 }
 
+export const mergeFails = () => {
+  mockPulls(nock(baseNockUrl), pullsFetched)
+    .get(uri => uri.includes('/issues/11927/labels'))
+    .reply(200, [
+      {
+        name: 'foo'
+      }
+    ])
+    .get(uri => uri.includes('/issues/11898/labels'))
+    .reply(200, [
+      {
+        name: 'no merge'
+      }
+    ])
+    .get(uri => uri.includes('/issues/12628/labels'))
+    .reply(200, [
+      {
+        name: 'no merge'
+      }
+    ])
+    .get(uri => uri.includes('/issues/11829/labels'))
+    .reply(200, [
+      {
+        name: 'no merge'
+      },
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/issues/11774/labels'))
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/pulls/11774/reviews'))
+    .reply(200, [
+      {
+        state: 'CHANGES_REQUESTED',
+        user: {
+          login: 'SuperUser'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/pulls/12628/reviews'))
+    .reply(200, [
+      {
+        state: 'CHANGES_REQUESTED',
+        user: {
+          login: 'SuperUser'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/issues/11709/labels'))
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/pulls/11709/reviews'))
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        }
+      },
+      {
+        state: 'CHANGES_REQUESTED',
+        user: {
+          login: 'SomeoneElse'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/issues/91683/labels'))
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/issues/92510/labels'))
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/pulls/91683/reviews'))
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'CHANGES_REQUESTED',
+        user: {
+          login: 'SuperUser'
+        },
+        submitted_at: '2016-01-01T00:00:00Z'
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        },
+        submitted_at: '2016-01-01T00:00:00Z'
+      }
+    ])
+    .get(uri => uri.includes('/pulls/92510/reviews'))
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        },
+        submitted_at: '2016-01-01T00:00:00Z'
+      }
+    ])
+    .get(uri => uri.includes('/restrictions'))
+    .reply(200, restrictions)
+    .get(uri => uri.includes('/members/SomeRando'))
+    .reply(404)
+    .get(uri => uri.includes('/members/SuperUser'))
+    .reply(204)
+    .put(uri => uri.includes('/merge'))
+    .reply(500)
+}
+
 export const mergesPriorityLabels = () => {
   mockPulls(nock(baseNockUrl), pullsFetched, searchPriorityLabel)
     .get(uri => uri.includes('/labels'))

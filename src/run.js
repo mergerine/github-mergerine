@@ -52,6 +52,8 @@ const runOne = async repo => {
     logRun('error executing decision', decision)
     // eslint-disable-next-line no-console
     console.error('error executing decision', decision)
+
+    decision.error = err
   }
 
   logRun('...done acting')

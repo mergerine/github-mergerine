@@ -22,7 +22,7 @@ const merge = async (pull, repo) => {
 
   const mergeUrl = `${url}/merge`
 
-  const data = {
+  const putData = {
     // `commit_title` and `commit_message` have proper defaults.
     // could use `sha` to restrict merge to SHA at approval
     // TODO: Get merge method from config or infer from repo API:
@@ -33,16 +33,29 @@ const merge = async (pull, repo) => {
   }
 
   try {
-    const merged = await githubFetch(mergeUrl, {
+    const { res, data } = await githubFetch(mergeUrl, {
       method: 'put',
-      data
+      data: putData
     })
+
+    if (!res.ok) {
+      const message = `Merge failed with status ${
+        res.status
+      } and body: ${JSON.stringify(data)}`
+      throw new Error(message)
+    }
+
     if (deleteBranchAfterMerge) {
       await deleteBranch(pull, repo)
     }
-    return merged
+
+    return {
+      res,
+      data
+    }
   } catch (err) {
     trace(err)
+
     throw err
   }
 }
