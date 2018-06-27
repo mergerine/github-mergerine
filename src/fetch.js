@@ -29,7 +29,7 @@ const githubFetch = (url, options = {}) => {
   return fetchPaginate(url, {
     headers: allHeaders,
     method,
-    items: data => (data.searchData ? data.searchData.items : data),
+    items: data => (data.items ? data.items : data),
     ...rest
   })
     .then(({ res, data }) => {

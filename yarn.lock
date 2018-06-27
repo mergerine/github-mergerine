@@ -2166,9 +2166,9 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fetch-paginate@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/fetch-paginate/-/fetch-paginate-1.0.3.tgz#251d0c4f7c04f410878cbac53a47440c419b9bfb"
+fetch-paginate@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/fetch-paginate/-/fetch-paginate-1.1.2.tgz#1f48b491e33abede06c4e00cace7373b7efa7e0c"
   dependencies:
     parse-link-header "^1.0.1"
 

@@ -335,7 +335,7 @@ const fetchPulls = async ({ baseUrl, owner, name, pullsMode, query }) => {
         `${baseUrl}/search/issues?q=${encodeURIComponent(query)}`
       )
       log({ searchData: data })
-      pulls = data.items
+      pulls = data
     } catch (err) {
       trace(err)
       // TODO: Detect if it's fatal or not.
