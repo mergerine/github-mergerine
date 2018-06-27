@@ -13,13 +13,25 @@ const update = async pull => {
   }
 
   try {
-    return await githubFetch(merges_url, {
+    const { res, data } = await githubFetch(merges_url, {
       method: 'post',
       body: JSON.stringify(postData),
       headers: {
         'Content-Type': 'application/json'
       }
     })
+
+    if (!res.ok) {
+      const message = `Update failed with status ${
+        res.status
+      } and body: ${JSON.stringify(data)}`
+      throw new Error(message)
+    }
+
+    return {
+      res,
+      data
+    }
   } catch (err) {
     trace(err)
     throw err
