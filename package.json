@@ -1,6 +1,6 @@
 {
   "name": "github-mergerine",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "GitHub bot to automatically merge PRs matching certain criteria.",
   "main": "dist/index.js",
   "bin": {
