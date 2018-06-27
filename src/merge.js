@@ -35,7 +35,10 @@ const merge = async (pull, repo) => {
   try {
     const { res, data } = await githubFetch(mergeUrl, {
       method: 'put',
-      data: putData
+      body: JSON.stringify(putData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
 
     if (!res.ok) {
