@@ -200,7 +200,7 @@ const hasRelevantMergeableState = pull =>
 
 const isClosed = pull => pull.state !== 'open' || pull.merged
 
-const shouldMerge = async (pull, options) => {
+const isMergeableCore = async (pull, options) => {
   if (isClosed(pull)) {
     logDecide(`${pull.html_url} is closed, not merging`)
     return false
@@ -211,12 +211,31 @@ const shouldMerge = async (pull, options) => {
     return false
   }
 
+  return isMergeableByLabelsAndReviews(pull, options)
+}
+
+/**
+ *
+ * "mergeable": true
+ * "mergeable_state": "blocked"
+ *
+ */
+const isMergeableExceptPendingStatuses = async (pull, options) => {
+  if (pull.mergeable_state !== 'blocked') {
+    logDecide(`${pull.html_url} is not blocked, not pending statuses`)
+    return false
+  }
+
+  return isMergeableCore(pull, options)
+}
+
+const shouldMerge = async (pull, options) => {
   if (pull.mergeable_state !== 'clean') {
     logDecide(`${pull.html_url} is not clean, not merging`)
     return false
   }
 
-  return isMergeableByLabelsAndReviews(pull, options)
+  return isMergeableCore(pull, options)
 }
 
 const shouldUpdate = async (pull, options) => {
@@ -238,6 +257,15 @@ const shouldSkip = pull => isClosed(pull) || !hasRelevantMergeableState(pull)
 const decideForPull = async (pull, options) => {
   const result = { pull }
   const results = [result]
+
+  if (await isMergeableExceptPendingStatuses(pull, options)) {
+    logDecide(
+      `${
+        pull.html_url
+      } is mergeable except blocked by pending statuses, waiting`
+    )
+    return { action: 'wait', result, results, options }
+  }
 
   if (await shouldMerge(pull, options)) {
     return {
@@ -308,7 +336,20 @@ const decideWithResults = async (results, options) => {
   logDecide('results', results.map(r => r.pull.number).join(','))
 
   for (let result of results) {
-    if (await shouldMerge(result.pull, options)) {
+    const { pull } = result
+    if (await isMergeableExceptPendingStatuses(pull, options)) {
+      logDecide(
+        `${
+          pull.html_url
+        } is mergeable except blocked by pending statuses, waiting`
+      )
+      return { action: 'wait', result, results, options }
+    }
+  }
+
+  for (let result of results) {
+    const { pull } = result
+    if (await shouldMerge(pull, options)) {
       return { action: 'merge', result, results, options }
     }
   }
@@ -316,12 +357,13 @@ const decideWithResults = async (results, options) => {
   // Since none were mergeable, find one to update:
 
   for (let result of results) {
-    if (await shouldUpdate(result.pull, options)) {
+    const { pull } = result
+    if (await shouldUpdate(pull, options)) {
       return { action: 'update', result, results, options }
     }
   }
 
-  return { action: 'wait', options }
+  return { action: 'wait', results, options }
 }
 
 const decideWithPulls = (pulls, options) =>
