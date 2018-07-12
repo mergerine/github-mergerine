@@ -9,10 +9,11 @@ const runOne = async repo => {
   const decision = await decide(repo)
 
   const html_url = get(decision, 'result.pull.html_url')
+
   if (html_url) {
-    logDecide(decision.action, html_url)
+    logDecide(`action=${decision.action} for ${html_url}`)
   } else {
-    logDecide(decision.action)
+    logDecide(`action=${decision.action}`)
   }
 
   if (dry) {

@@ -220,6 +220,8 @@ const isMergeableByLabelsAndReviews = async (pull, options) => {
     return false
   }
 
+  logDecide(`${pull.html_url} is mergeable by labels and reviews`)
+
   return true
 }
 
@@ -399,6 +401,8 @@ const decideWithResults = async (results, options) => {
 
   logDecide('results', results.map(r => r.pull.number).join(','))
 
+  logDecide('phase: pending')
+
   for (let result of results) {
     const { pull } = result
     if (await isMergeableExceptPendingStatuses(pull, options)) {
@@ -411,12 +415,16 @@ const decideWithResults = async (results, options) => {
     }
   }
 
+  logDecide('phase: mergeable')
+
   for (let result of results) {
     const { pull } = result
     if (await shouldMerge(pull, options)) {
       return { action: 'merge', result, results, options }
     }
   }
+
+  logDecide('phase: updateable')
 
   // Since none were mergeable, find one to update:
 
