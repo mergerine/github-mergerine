@@ -89,14 +89,44 @@ const isMergeableByLabels = async (pull, options) => {
   return true
 }
 
+const getRequiredStatusChecksContexts = async (pull, options) => {
+  const { base: { ref: baseRef } } = pull
+  try {
+    const { res, data } = await repoFetch(
+      `/branches/${baseRef}/protection/required_status_checks/contexts`,
+      options
+    )
+
+    if (!res.ok) {
+      const message = `Check required contexts failed with status ${
+        res.status
+      } and body: ${JSON.stringify(data)}`
+      throw new Error(message)
+    }
+
+    return data
+  } catch (err) {
+    trace(err)
+    // TODO: 404 is expected, but what about other non-404 errors, e.g., 5XX?
+  }
+}
+
 const getRestrictions = async (pull, options) => {
   const { base: { ref: baseRef } } = pull
   try {
-    const { data: restrictions } = await repoFetch(
+    const { res, data } = await repoFetch(
       `/branches/${baseRef}/protection/restrictions`,
       options
     )
-    return restrictions
+
+    if (!res.ok) {
+      const message = `Check required contexts failed with status ${
+        res.status
+      } and body: ${JSON.stringify(data)}`
+      throw new Error(message)
+    }
+
+    return data
   } catch (err) {
     trace(err)
     // TODO: 404 is expected, but what about other non-404 errors, e.g., 5XX?
@@ -222,11 +252,45 @@ const isMergeableCore = async (pull, options) => {
  */
 const isMergeableExceptPendingStatuses = async (pull, options) => {
   if (pull.mergeable_state !== 'blocked') {
-    logDecide(`${pull.html_url} is not blocked, not pending statuses`)
+    logDecide(
+      `${pull.html_url} is not blocked (but "${
+        pull.mergeable_state
+      }"), not pending statuses`
+    )
     return false
   }
 
-  return isMergeableCore(pull, options)
+  logDecide(`${pull.html_url} is blocked, checking if otherwise mergeable`)
+
+  if (!isMergeableCore(pull, options)) {
+    return false
+  }
+
+  const requiredContexts = await getRequiredStatusChecksContexts(pull, options)
+
+  if (!requiredContexts || !requiredContexts.length) {
+    logDecide(`no required status checks found, not pending`)
+    return false
+  }
+
+  const { res: resStatuses, data } = await githubFetch(pull.statuses_url)
+
+  const statuses = data
+
+  if (!resStatuses.ok) {
+    const message = `Fetch statuses failed with status ${
+      resStatuses.status
+    } and body: ${JSON.stringify(data)}`
+    throw new Error(message)
+  }
+
+  const hasRequiredContextsPending = requiredContexts.some(requiredContext =>
+    statuses.some(
+      status => status.context === requiredContext && status.state === 'pending'
+    )
+  )
+
+  return hasRequiredContextsPending
 }
 
 const shouldMerge = async (pull, options) => {
