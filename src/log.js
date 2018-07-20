@@ -3,23 +3,28 @@ import { inspect } from 'util'
 
 const { NODE_ENV } = process.env
 
-const stringify = args =>
-  args.map(arg => (typeof arg === 'string' ? arg : JSON.stringify(arg)))
+const stringify = (label, args) =>
+  JSON.stringify({
+    label,
+    time: new Date().toISOString(),
+    data: args
+  })
 
-const inspectify = args =>
-  args.map(arg =>
+const inspectify = args => [
+  new Date().toISOString(),
+  ...args.map(arg =>
     inspect(arg, {
       colors: true,
       depth: null,
       maxArrayLength: null
     })
   )
+]
 
-const debugOneLine = label => {
-  const dbg = debug(label)
-  return (...args) =>
-    dbg(...(NODE_ENV === 'production' ? stringify(args) : inspectify(args)))
-}
+const debugOneLine = label => (...args) =>
+  NODE_ENV === 'production'
+    ? debug.enabled(label) && console.log(stringify(label, args)) // eslint-disable-line no-console
+    : debug(label)(...inspectify(args))
 
 const log = debugOneLine('mergerine:log')
 const logConfig = debugOneLine('mergerine:config')
