@@ -14,6 +14,7 @@ const accepts = [
   // TODO: Should this include "+json" suffix or no?
   'application/vnd.github.polaris-preview',
   'application/vnd.github.polaris-preview+json',
+  'application/vnd.github.howard-the-duck-preview+json',
   'application/json'
 ]
 

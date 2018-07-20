@@ -3,6 +3,14 @@ import githubFetch, { repoFetch } from './fetch'
 import log, { logDecide, trace } from './log'
 import { processQuery } from './helpers'
 
+const makeStatusUrl = pull => {
+  const { head } = pull
+  const { repo, sha } = head
+  const commitsUrl = repo.commits_url.replace('{/sha}', `/${sha}`)
+  const statusUrl = `${commitsUrl}/status`
+  return statusUrl
+}
+
 const isUserInTeam = async (login, team) => {
   try {
     const url = team.members_url.replace('{/member}', `/${login}`)
@@ -275,9 +283,9 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
     return false
   }
 
-  const { res: resStatuses, data } = await githubFetch(pull.statuses_url)
+  const statusUrl = makeStatusUrl(pull)
 
-  const statuses = data
+  const { res: resStatuses, data } = await githubFetch(statusUrl)
 
   if (!resStatuses.ok) {
     const message = `Fetch statuses failed with status ${
@@ -285,6 +293,8 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
     } and body: ${JSON.stringify(data)}`
     throw new Error(message)
   }
+
+  const { statuses } = data
 
   const hasRequiredContextsPending = requiredContexts.some(requiredContext =>
     statuses.some(
@@ -516,6 +526,6 @@ const decide = async options => {
   return decideWithPulls(fullPulls, options)
 }
 
-export { shouldMerge, shouldUpdate, decideForPull, sortResults }
+export { shouldMerge, shouldUpdate, decideForPull, sortResults, makeStatusUrl }
 
 export default decide

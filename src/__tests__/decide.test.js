@@ -1,6 +1,14 @@
-import { sortResults } from '../decide'
+import { sortResults, makeStatusUrl } from '../decide'
+import approvedPending from './mock/approved-pending.json'
 
 describe('decide', () => {
+  describe('makeStatusUrl', () => {
+    it('should work', () => {
+      expect(makeStatusUrl(approvedPending)).toBe(
+        'https://github.example.com/api/v3/repos/your-owner/your-repo/commits/123abcdefg/status'
+      )
+    })
+  })
   describe('sortResults', () => {
     it('should work for undefined', () => {
       expect(sortResults()).toBeUndefined()
