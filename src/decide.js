@@ -306,8 +306,8 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
 }
 
 const shouldMerge = async (pull, options) => {
-  if (pull.mergeable_state !== 'clean') {
-    logDecide(`${pull.html_url} is not clean, not merging`)
+  if (pull.mergeable_state !== 'clean' || pull.mergeable_state !== 'unstable') {
+    logDecide(`${pull.html_url} is not clean or unstable, not merging`)
     return false
   }
 
