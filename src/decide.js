@@ -11,12 +11,35 @@ const makeStatusUrl = pull => {
   return statusUrl
 }
 
-const isUserInTeam = async (login, team) => {
+// const isUserInTeam = async (login, team) => {
+//   try {
+//     const url = team.members_url.replace('{/member}', `/${login}`)
+//     trace('DEV USER IN TEAM', { login, team, url })
+//     const { res } = await githubFetch(url)
+//     return res.ok
+//   } catch (err) {
+//     trace(err)
+//     // TODO: 404 is expected, but what about other non-404 errors, e.g., 5XX?
+//     return false
+//   }
+// }
+
+const isUserInTeamTree = async (login, team) => {
   try {
-    const url = team.members_url.replace('{/member}', `/${login}`)
+    const url = team.members_url.replace('{/member}', '')
     trace('DEV USER IN TEAM', { login, team, url })
-    const { res } = await githubFetch(url)
-    return res.ok
+    const { res, data } = await githubFetch(url)
+
+    if (!res.ok) {
+      const message = `Get users in team failed with status ${
+        res.status
+      } and body: ${JSON.stringify(data)}`
+      throw new Error(message)
+    }
+
+    const some = data.some(user => user.login === login)
+
+    return some
   } catch (err) {
     trace(err)
     // TODO: 404 is expected, but what about other non-404 errors, e.g., 5XX?
@@ -28,7 +51,7 @@ const isUserInUsers = (login, users) => users.some(user => user.login === login)
 
 const isUserInTeams = async (pull, login, teams) => {
   for (let team of teams) {
-    if (await isUserInTeam(login, team)) {
+    if (await isUserInTeamTree(login, team)) {
       logDecide(
         `${pull.html_url} allows user "${login}" in team "${team.name}"`
       )

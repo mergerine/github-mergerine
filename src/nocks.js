@@ -169,10 +169,17 @@ export const merges = () => {
     ])
     .get(uri => uri.includes('/restrictions'))
     .reply(200, restrictions)
-    .get(uri => uri.includes('/members/SomeRando'))
-    .reply(404)
-    .get(uri => uri.includes('/members/SuperUser'))
-    .reply(204)
+    // .get(uri => uri.includes('/members/SomeRando'))
+    // .reply(404)
+    // .get(uri => uri.includes('/members/SuperUser'))
+    // .reply(204)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      }
+    ])
     .put(uri => uri.includes('/merge'))
     .reply(200)
 }
@@ -304,10 +311,17 @@ export const mergeFails = () => {
     ])
     .get(uri => uri.includes('/restrictions'))
     .reply(200, restrictions)
-    .get(uri => uri.includes('/members/SomeRando'))
-    .reply(404)
-    .get(uri => uri.includes('/members/SuperUser'))
-    .reply(204)
+    // .get(uri => uri.includes('/members/SomeRando'))
+    // .reply(404)
+    // .get(uri => uri.includes('/members/SuperUser'))
+    // .reply(204)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      }
+    ])
     .put(uri => uri.includes('/merge'))
     .reply(500)
 }
@@ -424,10 +438,17 @@ export const updates = () => {
     .reply(200, [])
     .get(uri => uri.includes('/restrictions'))
     .reply(200, restrictions)
-    .get(uri => uri.includes('/members/SomeRando'))
-    .reply(404)
-    .get(uri => uri.includes('/members/SuperUser'))
-    .reply(204)
+    // .get(uri => uri.includes('/members/SomeRando'))
+    // .reply(404)
+    // .get(uri => uri.includes('/members/SuperUser'))
+    // .reply(204)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      }
+    ])
     .post(uri => uri.includes('/merges'))
     .reply(200)
 }
