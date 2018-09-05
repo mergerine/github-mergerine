@@ -6,12 +6,12 @@ const { NODE_ENV } = process.env
 const stringify = (label, args) =>
   JSON.stringify({
     label,
-    time: new Date().toISOString(),
+    time: new Date().getTime(),
     data: args
   })
 
 const inspectify = args => [
-  new Date().toISOString(),
+  new Date().getTime(),
   ...args.map(arg =>
     inspect(arg, {
       colors: true,
