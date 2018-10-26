@@ -1,7 +1,49 @@
-import { sortResults, makeStatusUrl } from '../decide'
+import { allMergeableStateUnknown, sortResults, makeStatusUrl } from '../decide'
 import approvedPending from './mock/approved-pending.json'
 
 describe('decide', () => {
+  describe('allMergeableStateUnknown', () => {
+    it('should return false on undefined', () => {
+      expect(allMergeableStateUnknown()).toBe(false)
+    })
+
+    it('should return false on no PRs', () => {
+      expect(allMergeableStateUnknown([])).toBe(false)
+    })
+
+    it('should return false if a PR is not unknown', () => {
+      expect(
+        allMergeableStateUnknown([
+          {
+            mergeable_state: 'unknown'
+          },
+          {
+            mergeable_state: 'clean'
+          },
+          {
+            mergeable_state: 'unknown'
+          }
+        ])
+      ).toBe(false)
+    })
+
+    it('should return true if all PRs are unknown', () => {
+      expect(
+        allMergeableStateUnknown([
+          {
+            mergeable_state: 'unknown'
+          },
+          {
+            mergeable_state: 'unknown'
+          },
+          {
+            mergeable_state: 'unknown'
+          }
+        ])
+      ).toBe(true)
+    })
+  })
+
   describe('makeStatusUrl', () => {
     it('should work', () => {
       expect(makeStatusUrl(approvedPending)).toBe(
@@ -9,6 +51,7 @@ describe('decide', () => {
       )
     })
   })
+
   describe('sortResults', () => {
     it('should work for undefined', () => {
       expect(sortResults()).toBeUndefined()
