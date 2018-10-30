@@ -532,18 +532,16 @@ const fetchFullPulls = async ({ baseUrl, owner, name, pulls }) => {
   return fullPulls
 }
 
+const isStateUnknown = pull => {
+  return pull.mergeable_state === 'unknown'
+}
+
 const allMergeableStateUnknown = pulls => {
   if (pulls === undefined || pulls.length === 0) {
     return false
   }
 
-  for (let [, pull] of Object.entries(pulls)) {
-    if (pull.mergeable_state !== 'unknown') {
-      return false
-    }
-  }
-
-  return true
+  return pulls.every(isStateUnknown)
 }
 
 const decide = async options => {
