@@ -532,9 +532,7 @@ const fetchFullPulls = async ({ baseUrl, owner, name, pulls }) => {
   return fullPulls
 }
 
-const isStateUnknown = pull => {
-  return pull.mergeable_state === 'unknown'
-}
+const isStateUnknown = pull => pull.mergeable_state === 'unknown'
 
 const allMergeableStateUnknown = pulls => {
   if (pulls === undefined || pulls.length === 0) {
