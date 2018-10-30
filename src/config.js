@@ -31,7 +31,7 @@ const interval = getInterval(rawInterval)
 
 const rawMergeableStateRefreshInterval =
   parseInt(MERGERINE_MERGEABLE_STATE_REFRESH_INTERVAL) ||
-  config.mergable_state_refresh_interval ||
+  config.mergeable_state_refresh_interval ||
   5000 // 5 seconds
 const mergeableStateRefreshInterval = getInterval(
   rawMergeableStateRefreshInterval
