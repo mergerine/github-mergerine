@@ -1,4 +1,4 @@
-import { mergableStateRefreshInterval } from './config'
+import { mergeableStateRefreshInterval } from './config'
 import { sortBy } from 'lodash'
 import delay from 'delay'
 import githubFetch, { repoFetch } from './fetch'
@@ -572,9 +572,9 @@ const decide = async options => {
   // if all PRs are in an unknown mergeable state refetch
   if (allMergeableStateUnknown(fullPulls)) {
     log(
-      `All PRs are in mergeable state "unknown", waiting ${mergableStateRefreshInterval}ms to refresh...`
+      `All PRs are in mergeable state "unknown", waiting ${mergeableStateRefreshInterval}ms to refresh...`
     )
-    await delay(mergableStateRefreshInterval)
+    await delay(mergeableStateRefreshInterval)
     fullPulls = await fetchFullPulls({ baseUrl, owner, name, pulls })
   }
 
