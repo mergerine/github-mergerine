@@ -1,4 +1,6 @@
+import { mergeableStateRefreshInterval } from './config'
 import { sortBy } from 'lodash'
+import delay from 'delay'
 import githubFetch, { repoFetch } from './fetch'
 import log, { logDecide, trace } from './log'
 import { processQuery } from './helpers'
@@ -474,6 +476,7 @@ const decideWithResults = async (results, options) => {
 const decideWithPulls = (pulls, options) =>
   decideWithResults(pulls.map(pull => ({ pull })), options)
 
+// fetchPulls gets a list of PRs based on search query
 const fetchPulls = async ({ baseUrl, owner, name, pullsMode, query }) => {
   let pulls
   if (pullsMode === 'search') {
@@ -505,6 +508,40 @@ const fetchPulls = async ({ baseUrl, owner, name, pullsMode, query }) => {
   return pulls
 }
 
+// fetchFullPulls gets full data for each pull request provided
+const fetchFullPulls = async ({ baseUrl, owner, name, pulls }) => {
+  const fullPulls = []
+
+  for (let pull of pulls) {
+    try {
+      const url = `${baseUrl}/repos/${owner}/${name}/pulls/${pull.number}`
+
+      const { res, data: fullPull } = await githubFetch(url)
+
+      log({ pullNum: pull.html_url, res, fullPull })
+
+      // carry over labels from search results, since full pull doesn't have
+      fullPull.labels = pull.labels
+
+      fullPulls.push(fullPull)
+    } catch (err) {
+      trace(err)
+    }
+  }
+
+  return fullPulls
+}
+
+const isStateUnknown = pull => pull.mergeable_state === 'unknown'
+
+const allMergeableStateUnknown = pulls => {
+  if (pulls === undefined || pulls.length === 0) {
+    return false
+  }
+
+  return pulls.every(isStateUnknown)
+}
+
 const decide = async options => {
   let { query } = options
   const {
@@ -528,27 +565,27 @@ const decide = async options => {
 
   if (!pulls || !pulls.length) return { action: 'wait' }
 
-  const fullPulls = []
-  for (let pull of pulls) {
-    try {
-      const url = `${baseUrl}/repos/${owner}/${name}/pulls/${pull.number}`
+  let fullPulls = await fetchFullPulls({ baseUrl, owner, name, pulls })
 
-      const { res, data: fullPull } = await githubFetch(url)
-
-      log({ pullNum: pull.html_url, res, fullPull })
-
-      // carry over labels from search results, since full pull doesn't have
-      fullPull.labels = pull.labels
-
-      fullPulls.push(fullPull)
-    } catch (err) {
-      trace(err)
-    }
+  // if all PRs are in an unknown mergeable state refetch
+  if (allMergeableStateUnknown(fullPulls)) {
+    log(
+      `All PRs are in mergeable state "unknown", waiting ${mergeableStateRefreshInterval}ms to refresh...`
+    )
+    await delay(mergeableStateRefreshInterval)
+    fullPulls = await fetchFullPulls({ baseUrl, owner, name, pulls })
   }
 
   return decideWithPulls(fullPulls, options)
 }
 
-export { shouldMerge, shouldUpdate, decideForPull, sortResults, makeStatusUrl }
+export {
+  shouldMerge,
+  shouldUpdate,
+  decideForPull,
+  sortResults,
+  makeStatusUrl,
+  allMergeableStateUnknown
+}
 
 export default decide
