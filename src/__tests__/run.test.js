@@ -18,6 +18,7 @@ jest.mock('../config', () => ({
     }
   ],
   dry: true,
+  mergeableStateCheck: true,
   interval: 1000
 }))
 
@@ -84,6 +85,16 @@ describe('run', () => {
       {
         action: 'merge',
         result: { pull: { number: 92510 } }
+      }
+    ])
+  })
+
+  it('merges unstable pr', async () => {
+    nocks.unstable()
+    expect(await run()).toMatchObject([
+      {
+        action: 'merge',
+        result: { pull: { number: 12628 } }
       }
     ])
   })
