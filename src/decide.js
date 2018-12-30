@@ -1,4 +1,4 @@
-import { mergeableStateRefreshInterval } from './config'
+import { mergeableStateRefreshInterval, mergeableStateCheck } from './config'
 import { sortBy } from 'lodash'
 import delay from 'delay'
 import githubFetch, { repoFetch } from './fetch'
@@ -331,6 +331,9 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
 }
 
 const shouldMerge = async (pull, options) => {
+  if (pull.mergeable_state === 'unstable' && mergeableStateCheck) {
+    return isMergeableCore(pull, options)
+  }
   if (pull.mergeable_state !== 'clean') {
     logDecide(`${pull.html_url} is not clean, not merging`)
     return false

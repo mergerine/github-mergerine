@@ -5,6 +5,7 @@ import searchPriorityLabel from './__tests__/mock/search-priority-label'
 import pulls from './__tests__/mock/pulls'
 import pullsFetched from './__tests__/mock/pulls-fetched'
 import pullsFetchedNoneToMerge from './__tests__/mock/pulls-fetched-none-to-merge'
+import pullsFetchedUnstableToMerge from './__tests__/mock/pulls-fetched-unstable-to-merge'
 import restrictions from './__tests__/mock/restrictions'
 
 const baseNockUrl = 'https://github.example.com'
@@ -464,6 +465,37 @@ export const none = () => {
     .get(uri => uri.includes('/restrictions'))
     .reply(200, restrictions)
     .get(uri => uri.includes('/members'))
+    .reply(404)
+}
+
+export const unstable = () => {
+  mockPulls(nock(baseNockUrl), pullsFetchedUnstableToMerge)
+    .get(uri => uri.includes('/reviews'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/restrictions'))
+    .reply(200, restrictions)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      }
+    ])
+    .put(uri => uri.includes('/merge'))
     .reply(404)
 }
 

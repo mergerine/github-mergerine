@@ -5,6 +5,7 @@ import { logConfig } from './log'
 
 const {
   MERGERINE_CONFIG = 'mergerine.json',
+  MERGERINE_MERGEABLE_STATE_CHECK,
   MERGERINE_INTERVAL,
   MERGERINE_MERGEABLE_STATE_REFRESH_INTERVAL,
   MERGERINE_DELETE_BRANCH_AFTER_MERGE,
@@ -43,6 +44,9 @@ const deleteBranchAfterMerge =
 
 const dry = MERGERINE_DRY === 'true' || config.dry
 
+const mergeableStateCheck =
+  MERGERINE_MERGEABLE_STATE_CHECK === 'false' || config.mergeableStateCheck
+
 const { logDataUrlPattern } = config
 
 export {
@@ -52,5 +56,6 @@ export {
   interval,
   mergeableStateRefreshInterval,
   deleteBranchAfterMerge,
-  dry
+  dry,
+  mergeableStateCheck
 }
