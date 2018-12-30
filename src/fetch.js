@@ -1,7 +1,9 @@
 import fetch from 'node-fetch'
 import fetchPaginate from 'fetch-paginate'
 import { logFetchOk, logFetchErr, trace } from './log'
-import { token, logDataUrlPattern } from './config'
+import configure from './config'
+
+const { token, logDataUrlPattern } = configure()
 
 const logDataUrlRegExp = logDataUrlPattern && new RegExp(logDataUrlPattern)
 

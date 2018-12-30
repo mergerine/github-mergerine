@@ -1,6 +1,8 @@
 import githubFetch from './fetch'
 import { trace } from './log'
-import { deleteBranchAfterMerge } from './config'
+import configure from './config'
+
+const { deleteBranchAfterMerge } = configure()
 
 const deleteBranch = async (pull, repo) => {
   const { head: { ref, repo: { git_refs_url } } } = pull

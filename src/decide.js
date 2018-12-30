@@ -1,9 +1,11 @@
-import { mergeableStateRefreshInterval, mergeableStateCheck } from './config'
+import configure from './config'
 import { sortBy } from 'lodash'
 import delay from 'delay'
 import githubFetch, { repoFetch } from './fetch'
 import log, { logDecide, trace } from './log'
 import { processQuery } from './helpers'
+
+const { mergeableStateRefreshInterval, mergeableStateCheck } = configure()
 
 const makeStatusUrl = pull => {
   const { head } = pull

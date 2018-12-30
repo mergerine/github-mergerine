@@ -3,7 +3,9 @@ import { logDecide, logRun, trace } from './log'
 import decide from './decide'
 import merge from './merge'
 import update from './update'
-import { repos, dry } from './config'
+import configure from './config'
+
+const { repos, dry } = configure()
 
 const runOne = async repo => {
   const decision = await decide(repo)

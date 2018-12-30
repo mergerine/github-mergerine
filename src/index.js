@@ -2,12 +2,14 @@
 
 import 'babel-polyfill'
 import yargs from 'yargs'
-import { repos } from './config'
+import configure from './config'
 import poll from './poll'
 import { decideForPull } from './decide'
 import githubFetch from './fetch'
 import getPullArgs from './pull-args'
 import run, { runOne } from './run'
+
+const { repos } = configure()
 
 const { argv: { _ } } = yargs
 const [command = 'poll', ...restArgs] = _

@@ -1,7 +1,7 @@
 import run from '../run'
 import * as nocks from '../nocks'
 
-jest.mock('../config', () => ({
+jest.mock('../config', () => () => ({
   logDataUrlPattern: '.*',
   repos: [
     {
