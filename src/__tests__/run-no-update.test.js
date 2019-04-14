@@ -15,25 +15,25 @@ jest.mock('../config', () => () => ({
       merge_method: 'squash',
       // using two labels here just to test
       priorityLabels: ['priority', 'merge'],
-      phases: ['merge', 'update']
+      phases: ['merge']
     }
   ],
+  dry: true,
+  mergeableStateCheck: true,
   interval: 1000
 }))
 
-describe('run fail', () => {
+describe('run no update', () => {
   beforeEach(() => nocks.before())
 
   afterEach(() => nocks.after())
 
-  it('merge fails', async () => {
-    nocks.mergeFails()
+  it('does not update', async () => {
+    nocks.updates()
 
     expect(await run()).toMatchObject([
       {
-        action: 'merge',
-        result: { pull: { number: 92510 } },
-        error: expect.any(Error)
+        action: 'wait'
       }
     ])
   })

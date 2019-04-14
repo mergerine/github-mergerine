@@ -3,6 +3,7 @@
   "interval": "2 min",
   "deleteBranchAfterMerge": true,
   "logDataUrlPattern": ".*",
+  "phases": ["merge", "update"],
   "repos": [
     {
       "baseUrl": "https://github.example.com/api/v3",
@@ -15,7 +16,8 @@
       "priorityLabels": ["high priority", "medium priority"],
       "sort": "created",
       "direction": "desc",
-      "merge_method": "squash"
+      "merge_method": "squash",
+      "phases": ["merge", "update"]
     }
   ]
 }
