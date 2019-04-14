@@ -163,6 +163,23 @@ A regular expression string to match URLs for which to use full request/response
 Controls which phases are run - use this to disable either updating or merging,
 if you only want one or the other of these behaviors.
 
+##### `health`
+
+`Boolean|Number` Optional. Default `undefined`.
+
+Setting this to a port number (or to `true` or `0` for automatic port selection)
+will, when polling, start server to expose a health endpoint at `/health` that will,
+when the running instance is operating normally, respond with HTTP 200 and body:
+
+```js
+{"status":"pass"}
+```
+
+which is of content type `application/health+json` per the [IETF RFC](https://tools.ietf.org/id/draft-inadarei-api-health-check-01.html).
+
+This can be used by systems hosting or managing a mergerine instance
+to ping to check that it is still running and hasn't crashed.
+
 #### Environment variables
 
 ```
