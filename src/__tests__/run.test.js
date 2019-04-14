@@ -14,7 +14,8 @@ jest.mock('../config', () => () => ({
       notLabels: ['no merge'],
       merge_method: 'squash',
       // using two labels here just to test
-      priorityLabels: ['priority', 'merge']
+      priorityLabels: ['priority', 'merge'],
+      phases: ['merge', 'update']
     }
   ],
   dry: true,

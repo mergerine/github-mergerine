@@ -437,6 +437,10 @@ const sortResults = (results, options = {}) =>
   )
 
 const decideWithResults = async (results, options) => {
+  const { phases } = options
+
+  logDecide(`phases: ${phases.join(', ')}`)
+
   results = sortResults(results, options)
 
   logDecide('results', results.map(r => r.pull.number).join(','))
@@ -455,23 +459,27 @@ const decideWithResults = async (results, options) => {
     }
   }
 
-  logDecide('phase: mergeable')
+  if (phases.includes('merge')) {
+    logDecide('phase: mergeable')
 
-  for (let result of results) {
-    const { pull } = result
-    if (await shouldMerge(pull, options)) {
-      return { action: 'merge', result, results, options }
+    for (let result of results) {
+      const { pull } = result
+      if (await shouldMerge(pull, options)) {
+        return { action: 'merge', result, results, options }
+      }
     }
   }
 
-  logDecide('phase: updateable')
-
   // Since none were mergeable, find one to update:
 
-  for (let result of results) {
-    const { pull } = result
-    if (await shouldUpdate(pull, options)) {
-      return { action: 'update', result, results, options }
+  if (phases.includes('update')) {
+    logDecide('phase: updateable')
+
+    for (let result of results) {
+      const { pull } = result
+      if (await shouldUpdate(pull, options)) {
+        return { action: 'update', result, results, options }
+      }
     }
   }
 

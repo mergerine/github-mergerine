@@ -21,6 +21,7 @@ const configure = ({ config, env = process.env } = {}) => {
 
   const repos = (config.repos || []).map(repo => ({
     ...repo,
+    phases: repo.phases || config.phases || ['merge', 'update'],
     baseUrl: repo.baseUrl || 'https://api.github.com'
   }))
 

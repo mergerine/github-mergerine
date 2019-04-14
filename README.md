@@ -146,11 +146,22 @@ Defaults to last in, first out - latest are merged first.
 
 Merge method to use, per https://developer.github.com/v3/pulls/#input-2.
 
+###### `repos[].phases`
+
+Repo-level override for [phases](#phases).
+
 ##### `logDataUrlPattern`
 
 `String` Optional. Default: `undefined`
 
 A regular expression string to match URLs for which to use full request/response logging.
+
+##### `phases`
+
+`Array<String>` Optional: Default `["merge", "update"]`.
+
+Controls which phases are run - use this to disable either updating or merging,
+if you only want one or the other of these behaviors.
 
 #### Environment variables
 
