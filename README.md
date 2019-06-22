@@ -61,6 +61,13 @@ Whether to delete pull request branches after merging.
 
 Overridden by environment variable `MERGERINE_DELETE_BRANCH_AFTER_MERGE`.
 
+##### `mergeCommitMessageSimple`
+
+`Boolean` Optional. Default `false`.
+
+Whether to override the default GitHub merge commit message with a simple one
+with the format `${pull.title} (#${pull.number})`.
+
 ##### `repos`
 
 `Array` Required.
@@ -149,6 +156,10 @@ Merge method to use, per https://developer.github.com/v3/pulls/#input-2.
 ###### `repos[].phases`
 
 Repo-level override for [phases](#phases).
+
+###### `repos[].mergeCommitMessageSimple`
+
+Repo-level override for [mergeCommitMessageSimple](#mergeCommitMessageSimple).
 
 ##### `logDataUrlPattern`
 

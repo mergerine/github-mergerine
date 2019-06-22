@@ -24,6 +24,11 @@ const merge = async (pull, repo) => {
 
   const mergeUrl = `${url}/merge`
 
+  let commit_message
+  if (repo.mergeCommitMessageSimple) {
+    commit_message = `${pull.title} (#${pull.number})`
+  }
+
   const putData = {
     // `commit_title` and `commit_message` have proper defaults.
     // could use `sha` to restrict merge to SHA at approval
@@ -31,6 +36,7 @@ const merge = async (pull, repo) => {
     //   https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
     //   https://developer.github.com/changes/2016-09-26-pull-request-merge-api-update/
     //  Can be 'merge', 'squash', or 'rebase'. Default is 'merge'.
+    commit_message,
     merge_method: repo.merge_method
   }
 

@@ -408,6 +408,40 @@ export const mergesNoRestrictions = () => {
     .reply(200)
 }
 
+export const mergesWithPRTitle = () =>
+  mockPulls(nock(baseNockUrl), pullsFetched)
+    .get(uri => uri.includes('/labels'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/reviews'))
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/restrictions'))
+    .reply(404)
+    .get(uri => uri.includes('/members'))
+    .reply(404)
+    .put(
+      uri => uri.includes('/merge'),
+      body => body.commit_message === '... (#91683)'
+    )
+    .reply(200, {})
+
 export const updates = () => {
   mockPulls(nock(baseNockUrl), pullsFetchedNoneToMerge, searchNoneToMerge)
     .get(uri => uri.includes('/issues/92510/labels'))
