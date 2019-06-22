@@ -52,9 +52,7 @@ const runOne = async repo => {
     }
   } catch (err) {
     trace(err)
-    logRun('error executing decision', decision)
-    // eslint-disable-next-line no-console
-    console.error('error executing decision', decision)
+    logRun('error executing decision', err, decision)
 
     decision.error = err
   }
