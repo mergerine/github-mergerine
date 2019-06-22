@@ -19,7 +19,10 @@ const configure = ({ config, env = process.env } = {}) => {
     config ||
     JSON.parse(readFileSync(resolve(process.cwd(), MERGERINE_CONFIG), 'utf8'))
 
-  const repos = (config.repos || []).map(repo => ({
+  const { repos: configRepos, ...restConfig } = config
+
+  const repos = (configRepos || []).map(repo => ({
+    ...restConfig,
     ...repo,
     phases: repo.phases || config.phases || ['merge', 'update'],
     baseUrl: repo.baseUrl || 'https://api.github.com'
