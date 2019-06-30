@@ -1,6 +1,30 @@
 import configure from '../config'
 
 describe('config', () => {
+  describe('extend', () => {
+    it('should allow health option', () => {
+      expect(
+        configure({
+          config: {
+            health: 7777
+          }
+        })
+      ).toMatchObject({
+        health: 7777
+      })
+    })
+    it('should allow other properties', () => {
+      expect(
+        configure({
+          config: {
+            whatever: true
+          }
+        })
+      ).toMatchObject({
+        whatever: true
+      })
+    })
+  })
   describe('phases', () => {
     it('should default phases', () => {
       expect(

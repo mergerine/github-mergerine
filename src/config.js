@@ -56,6 +56,7 @@ const configure = ({ config, env = process.env } = {}) => {
   const { logDataUrlPattern } = config
 
   return {
+    ...config,
     repos,
     logDataUrlPattern,
     token,
