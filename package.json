@@ -50,7 +50,6 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "date-fns": "^1.29.0",
     "debug": "^3.1.0",
