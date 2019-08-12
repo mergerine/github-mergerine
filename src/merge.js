@@ -24,20 +24,21 @@ const merge = async (pull, repo) => {
 
   const mergeUrl = `${url}/merge`
 
-  let commit_message
-  if (repo.mergeCommitMessageSimple) {
-    commit_message = `${pull.title} (#${pull.number})`
+  const putData = {}
+
+  // TODO: Get merge method from config or infer from repo API:
+  //   https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
+  //   https://developer.github.com/changes/2016-09-26-pull-request-merge-api-update/
+  //  Can be 'merge', 'squash', or 'rebase'. Default is 'merge'.
+  if (repo.merge_method) {
+    putData.merge_method = repo.merge_method
   }
 
-  const putData = {
-    // `commit_title` and `commit_message` have proper defaults.
-    // could use `sha` to restrict merge to SHA at approval
-    // TODO: Get merge method from config or infer from repo API:
-    //   https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
-    //   https://developer.github.com/changes/2016-09-26-pull-request-merge-api-update/
-    //  Can be 'merge', 'squash', or 'rebase'. Default is 'merge'.
-    commit_message,
-    merge_method: repo.merge_method
+  // `commit_title` and `commit_message` have proper defaults.
+  if (repo.mergeCommitMessageSimple) {
+    putData.commit_title = `${pull.title} (#${pull.number})`
+    // It seems we need to provide a `commit_message` to prevent the default rollup of commits.
+    putData.commit_message = ''
   }
 
   try {

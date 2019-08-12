@@ -438,7 +438,7 @@ export const mergesWithPRTitle = () =>
     .reply(404)
     .put(
       uri => uri.includes('/merge'),
-      body => body.commit_message === '... (#91683)'
+      body => body.commit_title === '... (#91683)' && body.commit_message === ''
     )
     .reply(200, {})
 
