@@ -68,6 +68,13 @@ Overridden by environment variable `MERGERINE_DELETE_BRANCH_AFTER_MERGE`.
 Whether to override the default GitHub merge commit message with a simple one
 with the format `${pull.title} (#${pull.number})`.
 
+##### `commitlint`
+
+`Object` Optional.
+
+A commitlint configuration if you want to ensure pull request titles match a pattern,
+since they become the merge commit message with `mergeCommitMessageSimple`.
+
 ##### `repos`
 
 `Array` Required.

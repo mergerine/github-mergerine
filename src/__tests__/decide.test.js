@@ -1,7 +1,32 @@
-import { allMergeableStateUnknown, sortResults, makeStatusUrl } from '../decide'
+import {
+  allMergeableStateUnknown,
+  sortResults,
+  makeStatusUrl,
+  isMergeableByCommitlint
+} from '../decide'
 import approvedPending from './mock/approved-pending.json'
 
 describe('decide', () => {
+  describe('isMergeableByCommitlint', () => {
+    it('should not be mergeable not respecting commitlint', async () => {
+      const pull = {
+        title: 'oops'
+      }
+      const options = {
+        commitlint: { extends: ['@commitlint/config-conventional'] }
+      }
+      expect(await isMergeableByCommitlint(pull, options)).toBe(false)
+    })
+    it('should be mergeable respecting commitlint', async () => {
+      const pull = {
+        title: 'chore(ok): yes'
+      }
+      const options = {
+        commitlint: { extends: ['@commitlint/config-conventional'] }
+      }
+      expect(await isMergeableByCommitlint(pull, options)).toBe(true)
+    })
+  })
   describe('allMergeableStateUnknown', () => {
     it('should return false on undefined', () => {
       expect(allMergeableStateUnknown()).toBe(false)

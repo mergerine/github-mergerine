@@ -4,6 +4,8 @@ import delay from 'delay'
 import githubFetch, { repoFetch } from './fetch'
 import log, { logDecide, trace } from './log'
 import { processQuery } from './helpers'
+import lint from '@commitlint/lint'
+import load from '@commitlint/load'
 
 const { mergeableStateRefreshInterval, mergeableStateCheck } = configure()
 
@@ -239,8 +241,32 @@ const isMergeableByReviews = async (pull, options) => {
   return true
 }
 
-const isMergeableByLabelsAndReviews = async (pull, options) => {
+const isMergeableByCommitlint = async (pull, options) => {
+  if (options.commitlint) {
+    try {
+      const rules = (await load(options.commitlint)).rules
+      const report = await lint(pull.title, rules)
+      if (report.valid) {
+        return true
+      } else {
+        logDecide(`${pull.html_url} is not mergeable by commitlint`, report)
+        return false
+      }
+    } catch (error) {
+      logDecide(`${pull.html_url} is not mergeable by commitlint`, error)
+      return false
+    }
+  }
+
+  return true
+}
+
+const isMergeableByMetadata = async (pull, options) => {
   // TODO: See if we should even auto-merge to the given branch, per configuration.
+
+  if (!await isMergeableByCommitlint(pull, options)) {
+    return false
+  }
 
   // TODO: Bypass this labels check if we're not configured to care about labels,
   //  or if assumed optional based on search query rules.
@@ -278,7 +304,7 @@ const isMergeableCore = async (pull, options) => {
     return false
   }
 
-  return isMergeableByLabelsAndReviews(pull, options)
+  return isMergeableByMetadata(pull, options)
 }
 
 /**
@@ -355,7 +381,7 @@ const shouldUpdate = async (pull, options) => {
     return false
   }
 
-  return isMergeableByLabelsAndReviews(pull, options)
+  return isMergeableByMetadata(pull, options)
 }
 
 const shouldSkip = pull => isClosed(pull) || !hasRelevantMergeableState(pull)
@@ -598,7 +624,8 @@ export {
   decideForPull,
   sortResults,
   makeStatusUrl,
-  allMergeableStateUnknown
+  allMergeableStateUnknown,
+  isMergeableByCommitlint
 }
 
 export default decide

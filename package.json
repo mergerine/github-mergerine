@@ -50,6 +50,9 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/lint": "^8.1.0",
+    "@commitlint/load": "^8.1.0",
     "babel-polyfill": "^6.26.0",
     "date-fns": "^1.29.0",
     "debug": "^3.1.0",
