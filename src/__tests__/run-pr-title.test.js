@@ -23,7 +23,7 @@ jest.mock('../config', () => () => ({
   interval: 1000
 }))
 
-describe('run', () => {
+describe('run pr title', () => {
   beforeEach(() => nocks.before())
 
   afterEach(() => nocks.after())

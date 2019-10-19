@@ -230,7 +230,6 @@ const isMergeableByReviews = async (pull, options) => {
                 count++
               }
 
-
               if (count === team.approvals) {
                 break
               }
