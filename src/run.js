@@ -7,9 +7,7 @@ import configure from './config'
 
 const { repos, dry } = configure()
 
-const runOne = async repo => {
-  const decision = await decide(repo)
-
+const handleDecision = async (repo, decision) => {
   const html_url = get(decision, 'result.pull.html_url')
 
   if (html_url) {
@@ -60,6 +58,12 @@ const runOne = async repo => {
   logRun('...done acting')
 
   return decision
+}
+
+const runOne = async repo => {
+  const decision = await decide(repo)
+
+  return handleDecision(repo, decision)
 }
 
 const run = async () => {
