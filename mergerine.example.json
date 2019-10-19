@@ -16,6 +16,16 @@
       "priorityLabels": ["high priority", "medium priority"],
       "sort": "created",
       "direction": "desc",
+      "restrictions": [
+        {
+          "teams": [
+            {
+              "id": "123",
+              "approvals": 2
+            }
+          ]
+        }
+      ],
       "merge_method": "squash",
       "phases": ["merge", "update"]
     }

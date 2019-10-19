@@ -81,12 +81,6 @@ const isUserInUsersOrTeams = async (pull, login, users, teams) => {
 }
 
 const isUserAllowedToMerge = (login, pull, restrictions) => {
-  if (!restrictions) {
-    // TODO: Handle no restrictions.
-    logDecide(`${pull.html_url} has no restrictions for user "${login}"`)
-    return true
-  }
-
   const { users, teams = [] } = restrictions
 
   return isUserInUsersOrTeams(pull, login, users, teams)
@@ -218,27 +212,63 @@ const isMergeableByReviews = async (pull, options) => {
     }
   }
 
-  const restrictions = await getRestrictions(pull, options)
+  if (options.restrictions && options.restrictions.length) {
+    for (let restriction of options.restrictions) {
+      if (restriction.teams && restriction.teams.length) {
+        for (let team of restriction.teams) {
+          const members_url = `${options.baseUrl}/teams/${team.id}/members`
+          const { data: members } = await githubFetch(members_url)
 
-  if (restrictions) {
-    for (let approval of approvals) {
-      const { user: { login } } = approval
+          if (team.approvals && team.approvals > 0) {
+            let count = 0
+            for (let approval of approvals) {
+              const { user: { login } } = approval
 
-      const userIsAllowedToMerge = await isUserAllowedToMerge(
-        login,
-        pull,
-        restrictions
-      )
+              trace(`${pull.html_url} members`, members)
 
-      if (userIsAllowedToMerge) {
-        return true
+              if (members.some(member => member.login === login)) {
+                count++
+              }
+
+
+              if (count === team.approvals) {
+                break
+              }
+            }
+
+            if (count !== team.approvals) {
+              trace(`${pull.html_url} has only ${count} approvals by team ${team.id} but requires ${team.approvals}`)
+              return false
+            }
+          }
+        }
       }
     }
-
-    return false
   }
 
-  return true
+  const restrictions = await getRestrictions(pull, options)
+
+  if (!restrictions) {
+    // TODO: Handle no restrictions.
+    logDecide(`${pull.html_url} has no restrictions`)
+    return true
+  }
+
+  for (let approval of approvals) {
+    const { user: { login } } = approval
+
+    const userIsAllowedToMerge = await isUserAllowedToMerge(
+      login,
+      pull,
+      restrictions
+    )
+
+    if (userIsAllowedToMerge) {
+      return true
+    }
+  }
+
+  return false
 }
 
 const isMergeableByCommitlint = async (pull, options) => {

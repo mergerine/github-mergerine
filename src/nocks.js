@@ -402,8 +402,67 @@ export const mergesNoRestrictions = () => {
     ])
     .get(uri => uri.includes('/restrictions'))
     .reply(404)
-    .get(uri => uri.includes('/members'))
+    .get(uri => uri.match(/members\/[A-Za-z0-9]+/))
     .reply(404)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      },
+      {
+        login: 'SuperUser2'
+      }
+    ])
+    .put(uri => uri.includes('/merge'))
+    .reply(200)
+}
+
+export const mergesCustomRestrictionsTwoApprovals = () => {
+  mockPulls(nock(baseNockUrl), pullsFetched)
+    .get(uri => uri.includes('/labels'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        name: 'merge'
+      }
+    ])
+    .get(uri => uri.includes('/reviews'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SomeRando'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser'
+        }
+      },
+      {
+        state: 'APPROVED',
+        user: {
+          login: 'SuperUser2'
+        }
+      }
+    ])
+    .get(uri => uri.includes('/restrictions'))
+    .reply(404)
+    .get(uri => uri.match(/members\/[A-Za-z0-9]+/))
+    .reply(404)
+    .get(uri => uri.includes('/members'))
+    .times(Infinity)
+    .reply(200, [
+      {
+        login: 'SuperUser'
+      },
+      {
+        login: 'SuperUser2'
+      }
+    ])
     .put(uri => uri.includes('/merge'))
     .reply(200)
 }
