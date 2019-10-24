@@ -141,6 +141,26 @@ Labels with which to exclude pull requests.
 
 Labels with which to prioritize pull requests at the front of the queue.
 
+###### `repos[].restrictions`
+
+`Array<Object>` Optional.
+
+Use to configure custom restrictions, such as requiring a minimum number of approval(s) from given team(s) by ID.
+Example:
+
+```json
+[
+  {
+    "teams": [
+      {
+        "id": "123",
+        "approvals": 2
+      }
+    ]
+  }
+]
+```
+
 ###### `repos[].sort`
 
 `"created"|"updated"` Optional. Default: `"created"`
