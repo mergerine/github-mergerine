@@ -10,6 +10,8 @@ const { repos, dry } = configure()
 const runOne = async repo => {
   const decision = await decide(repo)
 
+  console.log('ADJ decision', decision)
+
   const html_url = get(decision, 'result.pull.html_url')
 
   if (html_url) {

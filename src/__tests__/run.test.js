@@ -23,7 +23,7 @@ jest.mock('../config', () => () => ({
   interval: 1000
 }))
 
-describe('run', () => {
+describe.only('run', () => {
   beforeEach(() => nocks.before())
 
   afterEach(() => nocks.after())
@@ -49,7 +49,7 @@ describe('run', () => {
     ])
   })
 
-  it('updates', async () => {
+  it.only('updates', async () => {
     nocks.updates()
 
     expect(await run()).toMatchObject([

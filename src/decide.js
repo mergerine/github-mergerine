@@ -121,7 +121,9 @@ const isMergeableByLabels = async (pull, options) => {
 }
 
 const getRequiredStatusChecksContexts = async (pull, options) => {
-  const { base: { ref: baseRef } } = pull
+  const {
+    base: { ref: baseRef }
+  } = pull
   try {
     const { res, data } = await repoFetch(
       `/branches/${baseRef}/protection/required_status_checks/contexts`,
@@ -143,7 +145,9 @@ const getRequiredStatusChecksContexts = async (pull, options) => {
 }
 
 const getRestrictions = async (pull, options) => {
-  const { base: { ref: baseRef } } = pull
+  const {
+    base: { ref: baseRef }
+  } = pull
   try {
     const { res, data } = await repoFetch(
       `/branches/${baseRef}/protection/restrictions`,
@@ -198,15 +202,11 @@ const isMergeableByReviews = async (pull, options) => {
 
     if (areChangesRequestedsReplacedByApprovals) {
       logDecide(
-        `${
-          pull.html_url
-        } has changes requested but are replaced by later approvals from same users`
+        `${pull.html_url} has changes requested but are replaced by later approvals from same users`
       )
     } else {
       logDecide(
-        `${
-          pull.html_url
-        } has changes requested that are not replaced by later approvals from same users`
+        `${pull.html_url} has changes requested that are not replaced by later approvals from same users`
       )
       return false
     }
@@ -222,7 +222,9 @@ const isMergeableByReviews = async (pull, options) => {
           if (team.approvals && team.approvals > 0) {
             let count = 0
             for (let approval of approvals) {
-              const { user: { login } } = approval
+              const {
+                user: { login }
+              } = approval
 
               trace(`${pull.html_url} members`, members)
 
@@ -236,7 +238,9 @@ const isMergeableByReviews = async (pull, options) => {
             }
 
             if (count !== team.approvals) {
-              trace(`${pull.html_url} has only ${count} approvals by team ${team.id} but requires ${team.approvals}`)
+              trace(
+                `${pull.html_url} has only ${count} approvals by team ${team.id} but requires ${team.approvals}`
+              )
               return false
             }
           }
@@ -254,7 +258,9 @@ const isMergeableByReviews = async (pull, options) => {
   }
 
   for (let approval of approvals) {
-    const { user: { login } } = approval
+    const {
+      user: { login }
+    } = approval
 
     const userIsAllowedToMerge = await isUserAllowedToMerge(
       login,
@@ -293,26 +299,29 @@ const isMergeableByCommitlint = async (pull, options) => {
 const isMergeableByMetadata = async (pull, options) => {
   // TODO: See if we should even auto-merge to the given branch, per configuration.
 
-  if (!await isMergeableByCommitlint(pull, options)) {
-    return false
+  if (!(await isMergeableByCommitlint(pull, options))) {
+    const description = 'commitlint'
+    return { merge: false, description }
   }
 
   // TODO: Bypass this labels check if we're not configured to care about labels,
   //  or if assumed optional based on search query rules.
-  if (!await isMergeableByLabels(pull, options)) {
+  if (!(await isMergeableByLabels(pull, options))) {
     logDecide(`${pull.html_url} is not mergeable by labels`)
-    return false
+    const description = 'labels'
+    return { merge: false, description }
   }
 
   // TODO: Bypass this if the branch isn't protected with approval requirement.
-  if (!await isMergeableByReviews(pull, options)) {
+  if (!(await isMergeableByReviews(pull, options))) {
     logDecide(`${pull.html_url} is not mergeable by reviews`)
-    return false
+    const description = 'reviews'
+    return { merge: false, description }
   }
 
   logDecide(`${pull.html_url} is mergeable by labels and reviews`)
 
-  return true
+  return { merge: true }
 }
 
 const relevantMergeableStates = ['clean', 'behind']
@@ -324,13 +333,15 @@ const isClosed = pull => pull.state !== 'open' || pull.merged
 
 const isMergeableCore = async (pull, options) => {
   if (isClosed(pull)) {
-    logDecide(`${pull.html_url} is closed, not merging`)
-    return false
+    const description = 'closed'
+    logDecide(`${pull.html_url} is ${description}, not merging`)
+    return { merge: false, description }
   }
 
   if (!pull.mergeable) {
-    logDecide(`${pull.html_url} is not mergeable, not merging`)
-    return false
+    const description = 'not mergeable'
+    logDecide(`${pull.html_url} is ${description}, not merging`)
+    return { merge: false, description }
   }
 
   return isMergeableByMetadata(pull, options)
@@ -354,7 +365,7 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
 
   logDecide(`${pull.html_url} is blocked, checking if otherwise mergeable`)
 
-  if (!isMergeableCore(pull, options)) {
+  if (!(isMergeableCore(pull, options).merge)) {
     return false
   }
 
@@ -378,22 +389,25 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
 
   const { statuses } = data
 
-  const hasRequiredContextsPending = requiredContexts.some(requiredContext =>
+  return requiredContexts.some(requiredContext =>
     statuses.some(
       status => status.context === requiredContext && status.state === 'pending'
     )
   )
-
-  return hasRequiredContextsPending
 }
 
 const shouldMerge = async (pull, options) => {
   if (pull.mergeable_state === 'unstable' && mergeableStateCheck) {
     return isMergeableCore(pull, options)
   }
+
   if (pull.mergeable_state !== 'clean') {
-    logDecide(`${pull.html_url} is not clean, not merging`)
-    return false
+    console.log('ADJ WHY ARE YOU NOT CLEAN', pull.number)
+    const description = 'not clean'
+
+    logDecide(`${pull.html_url} is ${description}, not merging`)
+
+    return { merge: false, description }
   }
 
   return isMergeableCore(pull, options)
@@ -410,7 +424,7 @@ const shouldUpdate = async (pull, options) => {
     return false
   }
 
-  return isMergeableByMetadata(pull, options)
+  return isMergeableByMetadata(pull, options).merge
 }
 
 const shouldSkip = pull => isClosed(pull) || !hasRelevantMergeableState(pull)
@@ -420,15 +434,16 @@ const decideForPull = async (pull, options) => {
   const results = [result]
 
   if (await isMergeableExceptPendingStatuses(pull, options)) {
-    logDecide(
-      `${
-        pull.html_url
-      } is mergeable except blocked by pending statuses, waiting`
-    )
-    return { action: 'wait', result, results, options }
+    const description = 'pending statuses'
+    logDecide(`${pull.html_url} is mergeable except ${description}, waiting`)
+    return { action: 'wait', description, result, results, options }
   }
 
-  if (await shouldMerge(pull, options)) {
+  const { merge, description } = await shouldMerge(pull, options)
+
+  console.log('ADJ merge', merge, description)
+
+  if (merge) {
     return {
       action: 'merge',
       result,
@@ -446,7 +461,7 @@ const decideForPull = async (pull, options) => {
     }
   }
 
-  return { action: 'wait', result, results, options }
+  return { action: 'wait', description, result, results, options }
 }
 
 const sortForDate = (date, direction = 'desc') => {
@@ -505,21 +520,22 @@ const decideWithResults = async (results, options) => {
   for (let result of results) {
     const { pull } = result
     if (await isMergeableExceptPendingStatuses(pull, options)) {
-      logDecide(
-        `${
-          pull.html_url
-        } is mergeable except blocked by pending statuses, waiting`
-      )
+      const description = 'blocked by pending statuses'
+      logDecide(`${pull.html_url} is mergeable except ${description}, waiting`)
       return { action: 'wait', result, results, options }
     }
   }
+
+  let description
 
   if (phases.includes('merge')) {
     logDecide('phase: mergeable')
 
     for (let result of results) {
       const { pull } = result
-      if (await shouldMerge(pull, options)) {
+      const mergeResult = await shouldMerge(pull, options)
+      description = mergeResult.description
+      if (mergeResult.merge) {
         return { action: 'merge', result, results, options }
       }
     }
@@ -532,13 +548,14 @@ const decideWithResults = async (results, options) => {
 
     for (let result of results) {
       const { pull } = result
+      console.log('ADJ phase update')
       if (await shouldUpdate(pull, options)) {
         return { action: 'update', result, results, options }
       }
     }
   }
 
-  return { action: 'wait', results, options }
+  return { action: 'wait', description, results, options }
 }
 
 const decideWithPulls = (pulls, options) =>
