@@ -439,7 +439,7 @@ const decideForPull = async (pull, options) => {
 
   if (await shouldUpdate(pull, options)) {
     return {
-      action: 'decide',
+      action: 'update',
       result,
       results,
       options
