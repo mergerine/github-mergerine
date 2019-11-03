@@ -533,9 +533,9 @@ const decideWithResults = async (results, options) => {
 
     for (let result of results) {
       const { pull } = result
-      const mergeResult = await shouldMerge(pull, options)
-      description = mergeResult.description
-      if (mergeResult.merge) {
+      const { merge, description: desc } = await shouldMerge(pull, options)
+      description = desc
+      if (merge) {
         return { action: 'merge', result, results, options }
       }
     }
