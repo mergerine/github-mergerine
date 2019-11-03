@@ -3,7 +3,7 @@
 > Merging as easy as a hot knife through margarine.
 
 [![npm](https://img.shields.io/npm/v/github-mergerine.svg)](https://www.npmjs.com/package/github-mergerine)
-[![Travis](https://img.shields.io/travis/mergerine/github-mergerine.svg)](https://github.com/mergerine/github-mergerine)
+[![Travis](https://img.shields.io/travis/mergerine/github-mergerine/master.svg)](https://github.com/mergerine/github-mergerine)
 
 A GitHub bot to automatically merge pull requests (PRs) matching certain search query, once passing status and approved by user with write permisssions to base branch, if matches configured labels, etc.
 
