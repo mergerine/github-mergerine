@@ -45,11 +45,11 @@ Overridden by environment variable `MERGERINE_DRY`.
 
 ##### `interval`
 
-`Number|String` Optional. Default: `2 min`
+`Number|String` Optional. Default: `'2 min'`
 
 The poll interval - how often to check for pull requests.
 Supports an integer as milliseconds or a human duration format supported by [timestring][timestring],
-such as "2 min" or "1m 30secs" or "1 hr 25m 18s".
+such as `'2 min'` or `'1m 30secs'` or `'1 hr 25m 18s'`.
 
 Overridden by environment variable `MERGERINE_INTERVAL`.
 
@@ -242,13 +242,13 @@ export DEBUG=mergerine:*
 
 If you installed globally, or have local node modules bin in your `PATH`, you can use this command to start polling:
 
-```
+```shell
 mergerine
 ```
 
 or use `npx` so you don't have to explicitly install globally:
 
-```
+```shell
 npx github-mergerine
 ```
 
@@ -262,7 +262,7 @@ MERGERINE_GITHUB_TOKEN=ABCDEFGHIJLMNOPQRSTUVWXYZ123 mergerine
 
 This will simply start polling immediately. We may expose other methods in the future.
 
-```
+```js
 import mergerine from 'github-mergerine'
 
 // now running...
@@ -272,7 +272,6 @@ import mergerine from 'github-mergerine'
 
 * add branch whitelist/blacklist for pull list mode (already supported in search mode)
 * add status checks in pull list mode (already supported in search mode)
-* token per repo in config
 * dry mode per repo in config
 * additional sorting/prioritization options
 
