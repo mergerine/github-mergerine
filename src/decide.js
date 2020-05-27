@@ -39,7 +39,7 @@ const isUserInTeamTree = async (login, team) => {
     if (!res.ok) {
       const message = `Get users in team failed with status ${
         res.status
-      } and body: ${JSON.stringify(data)}`
+        } and body: ${JSON.stringify(data)}`
       throw new Error(message)
     }
 
@@ -131,7 +131,7 @@ const getRequiredStatusChecksContexts = async (pull, options) => {
     if (!res.ok) {
       const message = `Check required contexts failed with status ${
         res.status
-      } and body: ${JSON.stringify(data)}`
+        } and body: ${JSON.stringify(data)}`
       throw new Error(message)
     }
 
@@ -153,7 +153,7 @@ const getRestrictions = async (pull, options) => {
     if (!res.ok) {
       const message = `Check required contexts failed with status ${
         res.status
-      } and body: ${JSON.stringify(data)}`
+        } and body: ${JSON.stringify(data)}`
       throw new Error(message)
     }
 
@@ -199,13 +199,13 @@ const isMergeableByReviews = async (pull, options) => {
     if (areChangesRequestedsReplacedByApprovals) {
       logDecide(
         `${
-          pull.html_url
+        pull.html_url
         } has changes requested but are replaced by later approvals from same users`
       )
     } else {
       logDecide(
         `${
-          pull.html_url
+        pull.html_url
         } has changes requested that are not replaced by later approvals from same users`
       )
       return false
@@ -315,10 +315,16 @@ const isMergeableByMetadata = async (pull, options) => {
   return true
 }
 
-const relevantMergeableStates = ['clean', 'behind']
+/**
+ * `has_hooks` is mergeable for GitHub Enterprise with pre-receive hooks.
+ * https://developer.github.com/v4/enum/mergestatestatus/#has_hooks
+ */
+const MERGEABLE_MERGEABLE_STATES = ['clean', 'has_hooks']
 
-const hasRelevantMergeableState = pull =>
-  relevantMergeableStates.includes(pull.mergeable_state)
+const ACTIONABLE_MERGEABLE_STATES = ['behind', ...MERGEABLE_MERGEABLE_STATES]
+
+const hasActionableMergeableState = pull =>
+  ACTIONABLE_MERGEABLE_STATES.includes(pull.mergeable_state)
 
 const isClosed = pull => pull.state !== 'open' || pull.merged
 
@@ -346,7 +352,7 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
   if (pull.mergeable_state !== 'blocked') {
     logDecide(
       `${pull.html_url} is not blocked (but "${
-        pull.mergeable_state
+      pull.mergeable_state
       }"), not pending statuses`
     )
     return false
@@ -372,7 +378,7 @@ const isMergeableExceptPendingStatuses = async (pull, options) => {
   if (!resStatuses.ok) {
     const message = `Fetch statuses failed with status ${
       resStatuses.status
-    } and body: ${JSON.stringify(data)}`
+      } and body: ${JSON.stringify(data)}`
     throw new Error(message)
   }
 
@@ -391,8 +397,9 @@ const shouldMerge = async (pull, options) => {
   if (pull.mergeable_state === 'unstable' && mergeableStateCheck) {
     return isMergeableCore(pull, options)
   }
-  if (pull.mergeable_state !== 'clean') {
-    logDecide(`${pull.html_url} is not clean, not merging`)
+
+  if (!MERGEABLE_MERGEABLE_STATES.includes(pull.mergeable_state)) {
+    logDecide(`${pull.html_url} does not have mergeable state, not merging`)
     return false
   }
 
@@ -413,7 +420,7 @@ const shouldUpdate = async (pull, options) => {
   return isMergeableByMetadata(pull, options)
 }
 
-const shouldSkip = pull => isClosed(pull) || !hasRelevantMergeableState(pull)
+const shouldSkip = pull => isClosed(pull) || !hasActionableMergeableState(pull)
 
 const decideForPull = async (pull, options) => {
   const result = { pull }
@@ -422,7 +429,7 @@ const decideForPull = async (pull, options) => {
   if (await isMergeableExceptPendingStatuses(pull, options)) {
     logDecide(
       `${
-        pull.html_url
+      pull.html_url
       } is mergeable except blocked by pending statuses, waiting`
     )
     return { action: 'wait', result, results, options }
@@ -507,7 +514,7 @@ const decideWithResults = async (results, options) => {
     if (await isMergeableExceptPendingStatuses(pull, options)) {
       logDecide(
         `${
-          pull.html_url
+        pull.html_url
         } is mergeable except blocked by pending statuses, waiting`
       )
       return { action: 'wait', result, results, options }
