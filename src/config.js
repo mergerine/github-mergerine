@@ -22,10 +22,10 @@ const configure = ({ config, env = process.env } = {}) => {
   const { repos: configRepos, ...restConfig } = config
 
   const repos = (configRepos || []).map(repo => ({
+    phases: ['merge', 'update'],
+    baseUrl: 'https://api.github.com',
     ...restConfig,
-    ...repo,
-    phases: repo.phases || config.phases || ['merge', 'update'],
-    baseUrl: repo.baseUrl || 'https://api.github.com'
+    ...repo
   }))
 
   const token = MERGERINE_GITHUB_TOKEN || GITHUB_TOKEN || config.token
