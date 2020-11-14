@@ -47,6 +47,17 @@ describe('config', () => {
       ).toEqual(['merge'])
     })
 
+    it('should use default baseUrl on repos', () => {
+      expect(
+        configure({
+          config: {
+            baseUrl: 'https://github.example.com/api/v3',
+            repos: [{}]
+          }
+        }).repos[0].baseUrl
+      ).toEqual('https://github.example.com/api/v3')
+    })
+
     it('should use repo override phases', () => {
       expect(
         configure({
