@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import webpack from 'webpack'
 import nodeExternals from 'webpack-node-externals'
 
-export default ({ production } = {}) => ({
+export default () => ({
   entry: {
     index: './src/index'
   },
@@ -17,7 +17,7 @@ export default ({ production } = {}) => ({
       {
         test: /.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'shebang-loader']
+        use: ['babel-loader']
       }
     ]
   },

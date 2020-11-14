@@ -2,15 +2,15 @@
   "name": "github-mergerine",
   "version": "1.15.0",
   "description": "GitHub bot to automatically merge PRs matching certain criteria.",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "bin": {
-    "mergerine": "dist/index.js",
-    "github-mergerine": "dist/index.js"
+    "mergerine": "dist/main.js",
+    "github-mergerine": "dist/main.js"
   },
   "repository": "mergerine/github-mergerine",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p --env.production",
+    "build": "webpack",
     "start": "babel-node src",
     "start:dist": "node dist",
     "lint": "yarn prettier-check && yarn eslint",
@@ -31,11 +31,13 @@
     }
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
+    "@babel/runtime": "^7.12.5",
+    "babel-loader": "^8.2.1",
     "eslint": "^4.13.1",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
@@ -48,15 +50,14 @@
     "nock": "^9.1.5",
     "prettier": "^1.10.2",
     "prettier-check": "^2.0.0",
-    "shebang-loader": "^0.0.1",
-    "webpack": "^3.10.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/lint": "^11.0.0",
     "@commitlint/load": "^11.0.0",
-    "babel-polyfill": "^6.26.0",
     "date-fns": "^1.29.0",
     "debug": "^3.1.0",
     "delay": "^4.1.0",
