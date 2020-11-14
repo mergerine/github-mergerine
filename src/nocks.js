@@ -345,7 +345,7 @@ export const mergesPriorityLabels = () => {
       {
         id: 456,
         url:
-          'https://git.target.com/api/v3/repos/your-owner/your-repo/labels/priority',
+          'https://github.example.com/api/v3/repos/your-owner/your-repo/labels/priority',
         name: 'priority',
         color: '000000',
         default: false
