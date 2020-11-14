@@ -22,9 +22,13 @@
     "format:only": "prettier --write",
     "test": "lint-staged && MERGERINE_CONFIG=mergerine.example.json jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "precommit": "yarn test",
-    "prepush": "yarn test",
     "prepublishOnly": "yarn build && yarn test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn test"
+    }
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
