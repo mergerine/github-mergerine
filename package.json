@@ -68,6 +68,6 @@
     "parse-github-url": "^1.0.2",
     "parse-link-header": "^1.0.1",
     "timestring": "^5.0.1",
-    "yargs": "^11.0.0"
+    "yargs": "^16.1.0"
   }
 }
